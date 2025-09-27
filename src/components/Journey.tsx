@@ -5,28 +5,28 @@ export default function Journey() {
   const steps = [
     {
       icon: "📱",
-      title: "Identity",
-      desc: "Quick e‑KYC with MyDigitalID. Fill in name + IC.",
+      title: "Identiti",
+      desc: "e‑KYC pantas dengan MyDigitalID. Isi nama + IC.",
     },
     {
       icon: "🗂️",
-      title: "Upload Docs",
-      desc: "Upload IC, SSM, bank statements & photo of business.",
+      title: "Muat Naik Dokumen",
+      desc: "Muat naik IC, SSM, penyata bank & foto perniagaan.",
     },
     {
       icon: "🤖",
-      title: "Auto Vetting",
+      title: "Penyaringan Automatik",
       desc: "Semak status permohonan anda",
     },
     {
       icon: "🎓",
-      title: "Interview Prep",
-      desc: "Checklist, chatbot, and status updates.",
+      title: "Persiapan Temuduga",
+      desc: "Senarai semak, chatbot, dan kemas kini status.",
     },
     {
       icon: "📘",
-      title: "Onboarding",
-      desc: "Mentoring modules before fund disbursement.",
+      title: "Pengenalan",
+      desc: "Modul bimbingan sebelum pencairan dana.",
     },
   ];
 
@@ -60,28 +60,28 @@ export default function Journey() {
     [
       {
         key: "scam",
-        title: "Scam Awareness",
-        desc: "Common scams, red flags, avoiding mule usage, TAC/OTP safety.",
+        title: "Kesedaran Penipuan",
+        desc: "Penipuan biasa, tanda amaran, elak penggunaan mule, keselamatan TAC/OTP.",
       },
       {
         key: "einvoice",
-        title: "e‑Invoice Setup",
-        desc: "Create & send e‑invoices; connect to POS/QR for tracking revenue.",
+        title: "Penyediaan e‑Invois",
+        desc: "Cipta & hantar e‑invois; sambung ke POS/QR untuk jejak hasil.",
       },
       {
         key: "bookkeeping",
-        title: "Bookkeeping (MESINKIRA)",
-        desc: "Record daily sales/expenses. Suggested tool: MESINKIRA.",
+        title: "Penyimpanan Rekod (MESINKIRA)",
+        desc: "Rekod jualan/perbelanjaan harian. Alat dicadangkan: MESINKIRA.",
       },
       {
         key: "cashflow",
-        title: "Cash Flow & DSR Basics",
-        desc: "Understand income vs commitments; keep DSR within safe range.",
+        title: "Asas Aliran Tunai & DSR",
+        desc: "Fahami pendapatan vs komitmen; jaga DSR dalam julat selamat.",
       },
       {
         key: "compliance",
-        title: "Compliance & Business Ethics",
-        desc: "SSM upkeep, receipt culture, anti‑money‑laundering awareness.",
+        title: "Pematuhan & Etika Perniagaan",
+        desc: "Penyelenggaraan SSM, budaya resit, kesedaran anti-pengubahan wang haram.",
       },
     ];
   const doneCount = useMemo(
@@ -106,7 +106,7 @@ export default function Journey() {
           <div className="px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-xl">🕌</span>
-              <h1 className="font-semibold">iTEKAD Prototype (Demo)</h1>
+              <h1 className="font-semibold">Prototaip iTEKAD (Demo)</h1>
             </div>
           </div>
         </header>
@@ -137,17 +137,17 @@ export default function Journey() {
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Full Name"
+                placeholder="Nama Penuh"
                 className="w-full border rounded-lg px-3 py-2"
               />
               <input
                 value={ic}
                 onChange={(e) => setIc(e.target.value)}
-                placeholder="IC Number (12 digits)"
+                placeholder="Nombor IC (12 digit)"
                 className="w-full border rounded-lg px-3 py-2"
               />
               <button className="w-full bg-rose-700 text-white py-2 rounded-lg font-semibold">
-                Verify Identity
+                Sahkan Identiti
               </button>
             </div>
           )}
@@ -161,11 +161,11 @@ export default function Journey() {
           {stepIdx === 2 && (
             <div className="space-y-4 text-left">
               <div className="flex items-center justify-between">
-                <h4 className="font-semibold">Application Status</h4>
+                <h4 className="font-semibold">Status Permohonan</h4>
                 <div className="flex items-center gap-2">
                   <button
-                    aria-label="Processing"
-                    title="Processing"
+                    aria-label="Pemprosesan"
+                    title="Pemprosesan"
                     onClick={() => setVettingScenario("processing")}
                     className={`w-2.5 h-2.5 rounded-full bg-yellow-400 ${
                       vettingScenario === "processing"
@@ -174,8 +174,8 @@ export default function Journey() {
                     }`}
                   />
                   <button
-                    aria-label="Approved"
-                    title="Approved"
+                    aria-label="Diluluskan"
+                    title="Diluluskan"
                     onClick={() => setVettingScenario("approved")}
                     className={`w-2.5 h-2.5 rounded-full bg-green-500 ${
                       vettingScenario === "approved"
@@ -184,8 +184,8 @@ export default function Journey() {
                     }`}
                   />
                   <button
-                    aria-label="Problem"
-                    title="Problem"
+                    aria-label="Masalah"
+                    title="Masalah"
                     onClick={() => setVettingScenario("problem")}
                     className={`w-2.5 h-2.5 rounded-full bg-red-500 ${
                       vettingScenario === "problem" ? "ring-1 ring-red-700" : ""
@@ -195,18 +195,18 @@ export default function Journey() {
               </div>
               {vettingScenario === "processing" && (
                 <p className="text-sm text-gray-700">
-                  We're checking your application. Please wait 5–24 hours.
+                  Kami sedang menyemak permohonan anda. Sila tunggu 5–24 jam.
                 </p>
               )}
               {vettingScenario === "approved" && (
                 <p className="text-sm text-gray-700">
-                  Good news! You passed. Get ready for a short interview.
+                  Berita baik! Anda lulus. Bersiaplah untuk temuduga ringkas.
                 </p>
               )}
               {vettingScenario === "problem" && (
                 <p className="text-sm text-gray-700">
-                  There's a payment issue. Please pay overdue amounts and call
-                  or visit your bank.
+                  Terdapat masalah pembayaran. Sila bayar jumlah tertunggak dan
+                  hubungi atau lawati bank anda.
                 </p>
               )}
             </div>
@@ -214,43 +214,45 @@ export default function Journey() {
 
           {stepIdx === 3 && (
             <div className="text-left space-y-4">
-              <h4 className="font-semibold">Interview Preparation Checklist</h4>
+              <h4 className="font-semibold">
+                Senarai Semak Persiapan Temuduga
+              </h4>
               <ul className="list-disc list-inside text-sm text-gray-700">
-                <li>Bring original IC and SSM certificate</li>
-                <li>Prepare last 3 months' bank statements</li>
-                <li>Be ready to explain your business model</li>
-                <li>Know your monthly income & expenses</li>
-                <li>Have 1–2 future growth plans</li>
+                <li>Bawa IC asal dan sijil SSM</li>
+                <li>Sediakan penyata bank 3 bulan terakhir</li>
+                <li>Bersedia untuk menerangkan model perniagaan anda</li>
+                <li>Tahu pendapatan & perbelanjaan bulanan anda</li>
+                <li>Ada 1–2 pelan pertumbuhan masa depan</li>
               </ul>
 
               <div className="mt-4 bg-gray-50 p-3 rounded-lg border">
                 <h5 className="font-semibold mb-2">
-                  🤖 Chatbot Help / Call Support
+                  🤖 Bantuan Chatbot / Sokongan Panggilan
                 </h5>
                 <p className="text-xs text-gray-600">
-                  Ask any questions before your interview.
+                  Tanya sebarang soalan sebelum temuduga anda.
                 </p>
                 <textarea
-                  placeholder="Type your question here..."
+                  placeholder="Taip soalan anda di sini..."
                   className="w-full border rounded p-2 text-sm"
                 />
                 <button className="mt-2 bg-rose-700 text-white px-4 py-1 rounded">
-                  Send
+                  Hantar
                 </button>
                 <p className="text-xs mt-2 text-gray-500">
-                  Or call our hotline: 1-800-88-1234
+                  Atau hubungi talian panas kami: 1-800-88-1234
                 </p>
               </div>
 
               {rejected && (
                 <div className="mt-4" id="appealBox">
-                  <h5 className="font-semibold mb-1">Appeal</h5>
+                  <h5 className="font-semibold mb-1">Rayuan</h5>
                   <textarea
-                    placeholder="Explain your appeal..."
+                    placeholder="Jelaskan rayuan anda..."
                     className="w-full border rounded p-2 text-sm"
                   />
                   <button className="mt-2 bg-yellow-600 text-white px-4 py-1 rounded">
-                    Submit Appeal
+                    Hantar Rayuan
                   </button>
                 </div>
               )}
@@ -260,10 +262,10 @@ export default function Journey() {
           {stepIdx === 4 && (
             <div className="text-left space-y-4">
               <h4 className="font-semibold">
-                Mandatory Mentoring Before Disbursement
+                Bimbingan Wajib Sebelum Pencairan Dana
               </h4>
               <p className="text-sm text-gray-700">
-                Complete all modules below to unlock fund disbursement.
+                Lengkapkan semua modul di bawah untuk membuka pencairan dana.
               </p>
 
               <div className="space-y-2">
@@ -294,9 +296,9 @@ export default function Journey() {
 
               <div className="bg-gray-50 border rounded-lg p-3">
                 <div className="flex items-center justify-between text-sm mb-2">
-                  <span className="font-semibold">Progress</span>
+                  <span className="font-semibold">Kemajuan</span>
                   <span className="text-gray-700">
-                    {doneCount}/{moduleEntries.length} completed
+                    {doneCount}/{moduleEntries.length} selesai
                   </span>
                 </div>
                 <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
@@ -307,19 +309,18 @@ export default function Journey() {
                 </div>
                 <p className="text-xs text-gray-600 mt-2">
                   {allDone
-                    ? "Great job! A banker will finalize your disbursement."
-                    : "Complete all modules to enable disbursement."}
+                    ? "Kerja yang bagus! Seorang banker akan menyelesaikan pencairan anda."
+                    : "Lengkapkan semua modul untuk membolehkan pencairan."}
                 </p>
               </div>
 
               {allDone && (
                 <div className="bg-green-50 border border-green-200 rounded p-3 text-sm">
                   <p className="font-semibold">
-                    ✅ All modules completed. You are eligible for fund
-                    disbursement.
+                    ✅ Semua modul selesai. Anda layak untuk pencairan dana.
                   </p>
                   <p className="text-xs text-gray-600">
-                    Bank will verify your completions and proceed.
+                    Bank akan menyahkan penyiapan anda dan meneruskan.
                   </p>
                 </div>
               )}
@@ -333,10 +334,10 @@ export default function Journey() {
               onClick={() => setStepIdx(Math.max(0, stepIdx - 1))}
               className="px-4 py-2 rounded-lg bg-gray-100"
             >
-              Back
+              Kembali
             </button>
             <div className="text-sm text-gray-500">
-              Step {stepIdx + 1}/{steps.length}
+              Langkah {stepIdx + 1}/{steps.length}
             </div>
             <button
               onClick={() =>
@@ -344,7 +345,7 @@ export default function Journey() {
               }
               className="px-4 py-2 rounded-lg bg-rose-700 text-white"
             >
-              Next
+              Seterusnya
             </button>
           </div>
         </div>

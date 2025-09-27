@@ -26,42 +26,42 @@ export default function ClassicUploads() {
   return (
     <div className="space-y-3 text-left">
       <UploadButton
-        label="📄 Upload Application Form"
+        label="📄 Muat Naik Borang Permohonan"
         docType="applicationForm"
         isUploaded={uploadedDocs.applicationForm}
         onFileUpload={handleFileUpload}
       />
       <UploadSection
-        mainLabel="📄 Upload IC"
+        mainLabel="📄 Muat Naik IC"
         docType="ic"
         isUploaded={uploadedDocs.ic}
-        summary="How to upload IC?"
-        detail="Take a clear photo of front and back of your MyKad. Ensure all text is visible."
+        summary="Bagaimana untuk muat naik IC?"
+        detail="Ambil foto yang jelas pada bahagian hadapan dan belakang MyKad anda. Pastikan semua teks kelihatan."
         onFileUpload={handleFileUpload}
       />
       <UploadSection
-        mainLabel="📄 Upload SSM"
+        mainLabel="📄 Muat Naik SSM"
         docType="ssm"
         isUploaded={uploadedDocs.ssm}
-        summary="How to upload SSM?"
-        detail="Apply via SSM portal. Download/print the certificate, then upload."
-        link={{ href: "https://www.ssm.com.my", text: "SSM portal" }}
+        summary="Bagaimana untuk muat naik SSM?"
+        detail="Mohon melalui portal SSM. Muat turun/cetak sijil, kemudian muat naik."
+        link={{ href: "https://www.ssm.com.my", text: "Portal SSM" }}
         onFileUpload={handleFileUpload}
       />
       <UploadSection
-        mainLabel="📄 Upload Bank Statements"
+        mainLabel="📄 Muat Naik Penyata Bank"
         docType="bankStatements"
         isUploaded={uploadedDocs.bankStatements}
-        summary="How to upload Bank Statements?"
-        detail="Login to your bank app → e‑Statements → Download PDF. Upload here."
+        summary="Bagaimana untuk muat naik Penyata Bank?"
+        detail="Log masuk ke aplikasi bank anda → e‑Statements → Muat Turun PDF. Muat naik di sini."
         onFileUpload={handleFileUpload}
       />
       <UploadSection
-        mainLabel="📸 Upload Business Proof"
+        mainLabel="📸 Muat Naik Bukti Perniagaan"
         docType="businessProof"
         isUploaded={uploadedDocs.businessProof}
-        summary="What counts as proof?"
-        detail="Receipts, supplier invoices, stall rental, menu, shop photos."
+        summary="Apa yang dikira sebagai bukti?"
+        detail="Resit, invois pembekal, sewa gerai, menu, foto kedai."
         onFileUpload={handleFileUpload}
       />
     </div>
@@ -98,7 +98,7 @@ function UploadButton({
           document.getElementById(`file-input-${docType}`)?.click()
         }
       >
-        <span>{isUploaded ? "✅ Uploaded successfully" : label}</span>
+        <span>{isUploaded ? "✅ Berjaya dimuat naik" : label}</span>
         {isUploaded && <span className="text-green-600">✓</span>}
       </button>
       <input

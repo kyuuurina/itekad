@@ -30,32 +30,47 @@ export default function ItekadMobileApp() {
   const steps = [
     {
       key: "apply",
-      title: "Identity & Basics",
+      title: "Identiti & Asas",
       icon: "📱",
-      shortTitle: "Identity",
+      shortTitle: "Identiti",
     },
     {
       key: "docs",
-      title: "Documents Upload",
+      title: "Muat Naik Dokumen",
       icon: "🗂️",
-      shortTitle: "Documents",
+      shortTitle: "Dokumen",
     },
-    { key: "vet", title: "Auto Vetting", icon: "🤖", shortTitle: "Vetting" },
-    { key: "prep", title: "Interview Prep", icon: "🎓", shortTitle: "Prep" },
+    {
+      key: "vet",
+      title: "Penyaringan Automatik",
+      icon: "🤖",
+      shortTitle: "Penyaringan",
+    },
+    {
+      key: "prep",
+      title: "Persiapan Temuduga",
+      icon: "🎓",
+      shortTitle: "Persiapan",
+    },
     {
       key: "onboard",
-      title: "Onboarding & e‑Invoicing",
+      title: "Pengenalan & e‑Invois",
       icon: "📊",
-      shortTitle: "Onboard",
+      shortTitle: "Pengenalan",
     },
     {
       key: "profile",
-      title: "Financial Profile",
+      title: "Profil Kewangan",
       icon: "📋",
-      shortTitle: "Profile",
+      shortTitle: "Profil",
     },
-    { key: "fraud", title: "Scam Checker", icon: "⚠️", shortTitle: "Safety" },
-    { key: "grad", title: "Graduation", icon: "🚀", shortTitle: "Graduate" },
+    {
+      key: "fraud",
+      title: "Pemeriksa Penipuan",
+      icon: "⚠️",
+      shortTitle: "Keselamatan",
+    },
+    { key: "grad", title: "Tamadun", icon: "🚀", shortTitle: "Tamat" },
   ];
 
   const [stepIdx, setStepIdx] = useState(0);
@@ -89,19 +104,19 @@ export default function ItekadMobileApp() {
   const decision = useMemo(() => {
     const reasons = [];
     if (bankrupt) {
-      reasons.push("Listed in Insolvency/bankruptcy");
+      reasons.push("Terdaftar dalam Insolvensi/kebankrapan");
       return { outcome: "FAIL", reasons };
     }
     if (age < 18 || age > 60) {
-      reasons.push("Age outside eligible range (18–60)");
+      reasons.push("Umur di luar julat layak (18–60)");
       return { outcome: "FAIL", reasons };
     }
 
     const tenureOK = months >= 6;
-    if (!tenureOK) reasons.push("Business tenure < 6 months");
+    if (!tenureOK) reasons.push("Tempoh perniagaan < 6 bulan");
 
-    if (ccris === "default") reasons.push("CCRIS: severe default(s)");
-    if (ctos === "issue") reasons.push("CTOS: adverse record");
+    if (ccris === "default") reasons.push("CCRIS: kemungkiran teruk");
+    if (ctos === "issue") reasons.push("CTOS: rekod buruk");
 
     const thinFile = ccris === "clean" && ctos === "clean" && docsScore <= 2;
 
@@ -110,14 +125,14 @@ export default function ItekadMobileApp() {
     }
 
     if (ccris === "minor" || ctos === "issue" || thinFile) {
-      if (thinFile) reasons.push("Thin file: limited documents");
+      if (thinFile) reasons.push("Fail nipis: dokumen terhad");
       return {
         outcome: "FLAG",
-        reasons: reasons.length ? reasons : ["Manual review needed"],
+        reasons: reasons.length ? reasons : ["Semakan manual diperlukan"],
       };
     }
 
-    return { outcome: "PASS", reasons: ["Clean credit & meets tenure"] };
+    return { outcome: "PASS", reasons: ["Kredit bersih & memenuhi tempoh"] };
   }, [bankrupt, age, months, ccris, ctos, docsScore]);
 
   // Step 5: e‑Invoicing
@@ -147,18 +162,18 @@ export default function ItekadMobileApp() {
   const scamFindings = useMemo(() => {
     const hits = [];
     const lower = sms.toLowerCase();
-    if (/otp|tac|kod|6\s*digit/.test(lower)) hits.push("Asking for OTP/TAC");
+    if (/otp|tac|kod|6\s*digit/.test(lower)) hits.push("Meminta OTP/TAC");
     if (
       /transfer|bayar|yuran|fee/.test(lower) &&
       /proses|processing/.test(lower)
     )
-      hits.push("Asking for upfront fee");
+      hits.push("Meminta yuran pendahuluan");
     if (/klik|click|link|pautan/.test(lower))
-      hits.push("Suspicious link present");
+      hits.push("Pautan mencurigakan hadir");
     if (/akaun.*disekat|account.*suspend|blok/.test(lower))
-      hits.push("Account blocking threat");
+      hits.push("Ancaman sekatan akaun");
     if (/whatsapp.*agent|pegawai.*bank/.test(lower))
-      hits.push("Impersonation of bank staff");
+      hits.push("Meniru kakitangan bank");
     return hits;
   }, [sms]);
 
@@ -194,7 +209,7 @@ export default function ItekadMobileApp() {
                 : "bg-rose-700 text-white"
             }`}
           >
-            Journey
+            Perjalanan
           </button>
           <button
             onClick={() => setActiveTopTab("profile")}
@@ -204,12 +219,13 @@ export default function ItekadMobileApp() {
                 : "bg-rose-700 text-white"
             }`}
           >
-            Profile
+            Profil
           </button>
         </div>
         {activeTopTab === "journey" && (
           <div className="mt-2 text-sm text-center opacity-90">
-            Step {stepIdx + 1} of {steps.length}: {steps[stepIdx].shortTitle}
+            Langkah {stepIdx + 1} daripada {steps.length}:{" "}
+            {steps[stepIdx].shortTitle}
           </div>
         )}
       </div>
@@ -275,14 +291,14 @@ export default function ItekadMobileApp() {
                     {steps[0].title}
                   </h2>
                   <p className="text-sm text-gray-600 mt-1">
-                    Verify your identity with e-KYC
+                    Sahkan identiti anda dengan e-KYC
                   </p>
                 </div>
 
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Full Name
+                      Nama Penuh
                     </label>
                     <input
                       value={name}
@@ -294,7 +310,7 @@ export default function ItekadMobileApp() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      MyKad / IC (12 digits)
+                      MyKad / IC (12 digit)
                     </label>
                     <input
                       value={ic}
@@ -309,25 +325,25 @@ export default function ItekadMobileApp() {
                     onClick={runEkyc}
                     className="w-full bg-rose-600 text-white font-semibold py-3 rounded-lg text-base active:bg-rose-700 transition"
                   >
-                    Simulate e‑KYC Verification
+                    Simulasi Pengesahan e‑KYC
                   </button>
 
                   {ekyc === "pass" && (
                     <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-green-800 text-sm">
-                      ✅ e‑KYC verification passed successfully!
+                      ✅ Pengesahan e‑KYC berjaya!
                     </div>
                   )}
 
                   {ekyc === "fail" && (
                     <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-800 text-sm">
-                      ❌ e‑KYC failed. Please check IC format & name.
+                      ❌ e‑KYC gagal. Sila semak format IC & nama.
                     </div>
                   )}
                 </div>
 
                 <div className="mt-4 p-3 bg-blue-50 rounded-lg text-xs text-blue-800">
-                  💡 This simulates MyDigitalID verification: selfie + IC match,
-                  liveness check, and sanctions screening.
+                  💡 Ini mensimulasikan pengesahan MyDigitalID: selfie + padanan
+                  IC, pemeriksaan kehidupan, dan saringan sekatan.
                 </div>
               </MobileCard>
             )}
@@ -341,17 +357,17 @@ export default function ItekadMobileApp() {
                     {steps[1].title}
                   </h2>
                   <p className="text-sm text-gray-600 mt-1">
-                    Upload required documents
+                    Muat naik dokumen yang diperlukan
                   </p>
                 </div>
 
                 <div className="space-y-3">
                   {Object.entries({
-                    "IC Copy": "ic",
-                    "SSM Certificate": "ssm",
-                    "Bank Statement (3m)": "bank3m",
-                    "Business Plan": "plan",
-                    "Business Photo": "photo",
+                    "Salinan IC": "ic",
+                    "Sijil SSM": "ssm",
+                    "Penyata Bank (3m)": "bank3m",
+                    "Pelan Perniagaan": "plan",
+                    "Foto Perniagaan": "photo",
                   }).map(([label, key]) => (
                     <label
                       key={key}
@@ -380,7 +396,7 @@ export default function ItekadMobileApp() {
 
                 <div className="mt-4 p-3 bg-gray-100 rounded-lg">
                   <div className="text-sm font-medium">
-                    Progress: {docsScore} / 5 documents uploaded
+                    Kemajuan: {docsScore} / 5 dokumen dimuat naik
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
                     <div
@@ -391,8 +407,8 @@ export default function ItekadMobileApp() {
                 </div>
 
                 <div className="mt-4 p-3 bg-blue-50 rounded-lg text-xs text-blue-800">
-                  💡 OCR technology verifies that names & numbers match across
-                  all documents.
+                  💡 Teknologi OCR mengesahkan bahawa nama & nombor sepadan
+                  merentas semua dokumen.
                 </div>
               </MobileCard>
             )}
@@ -406,7 +422,7 @@ export default function ItekadMobileApp() {
                     {steps[2].title}
                   </h2>
                   <p className="text-sm text-gray-600 mt-1">
-                    Automated risk assessment
+                    Penilaian risiko automatik
                   </p>
                 </div>
 
@@ -421,9 +437,9 @@ export default function ItekadMobileApp() {
                         onChange={(e) => setCcris(e.target.value)}
                         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
                       >
-                        <option value="clean">Clean</option>
-                        <option value="minor">Minor Issues</option>
-                        <option value="default">Defaults</option>
+                        <option value="clean">Bersih</option>
+                        <option value="minor">Isu Kecil</option>
+                        <option value="default">Kemungkiran</option>
                       </select>
                     </div>
 
@@ -436,8 +452,8 @@ export default function ItekadMobileApp() {
                         onChange={(e) => setCtos(e.target.value)}
                         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
                       >
-                        <option value="clean">Clean</option>
-                        <option value="issue">Issue Present</option>
+                        <option value="clean">Bersih</option>
+                        <option value="issue">Ada Isu</option>
                       </select>
                     </div>
                   </div>
@@ -445,7 +461,7 @@ export default function ItekadMobileApp() {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Business Tenure
+                        Tempoh Perniagaan
                       </label>
                       <input
                         type="number"
@@ -454,13 +470,13 @@ export default function ItekadMobileApp() {
                           setMonths(parseInt(e.target.value || "0"))
                         }
                         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                        placeholder="Months"
+                        placeholder="Bulan"
                       />
                     </div>
 
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Age
+                        Umur
                       </label>
                       <input
                         type="number"
@@ -469,7 +485,7 @@ export default function ItekadMobileApp() {
                           setAge(parseInt(e.target.value || "0"))
                         }
                         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                        placeholder="Years"
+                        placeholder="Tahun"
                       />
                     </div>
                   </div>
@@ -482,7 +498,7 @@ export default function ItekadMobileApp() {
                       className="mr-3 w-4 h-4 text-rose-600 rounded focus:ring-rose-500"
                     />
                     <span className="text-sm font-medium">
-                      Bankruptcy/Insolvency Record
+                      Rekod Kebankrapan/Insolvensi
                     </span>
                   </label>
                 </div>
@@ -497,7 +513,7 @@ export default function ItekadMobileApp() {
                   }`}
                 >
                   <div className="font-bold text-lg mb-2">
-                    Assessment: {decision.outcome}
+                    Penilaian: {decision.outcome}
                   </div>
                   <ul className="space-y-1">
                     {decision.reasons.map((r, i) => (
@@ -509,8 +525,8 @@ export default function ItekadMobileApp() {
                   </ul>
                   {decision.outcome !== "PASS" && (
                     <div className="mt-2 text-xs opacity-75">
-                      Cases requiring review are forwarded to loan officers with
-                      full context.
+                      Kes yang memerlukan semakan diteruskan kepada pegawai
+                      pinjaman dengan konteks penuh.
                     </div>
                   )}
                 </div>
@@ -526,7 +542,7 @@ export default function ItekadMobileApp() {
                     {steps[3].title}
                   </h2>
                   <p className="text-sm text-gray-600 mt-1">
-                    Get ready for your interview
+                    Bersiaplah untuk temuduga anda
                   </p>
                 </div>
 
@@ -537,11 +553,11 @@ export default function ItekadMobileApp() {
                     </h3>
                     <div className="space-y-2">
                       {[
-                        "Last 3 months bank statements",
-                        "Sample e‑invoice or sales records",
-                        "Cost breakdown (rent, utilities, supplies)",
-                        "Business photos (location/stall)",
-                        "Fund usage plan (equipment/working capital)",
+                        "Penyata bank 3 bulan terakhir",
+                        "Contoh e‑invois atau rekod jualan",
+                        "Pecahan kos (sewa, utiliti, bekalan)",
+                        "Foto perniagaan (lokasi/gerai)",
+                        "Pelan penggunaan dana (peralatan/modal kerja)",
                       ].map((item, i) => (
                         <div
                           key={i}
@@ -556,7 +572,7 @@ export default function ItekadMobileApp() {
 
                   <div>
                     <h3 className="font-bold mb-3 text-gray-800">
-                      🤖 AI Assistant
+                      🤖 Pembantu AI
                     </h3>
                     <ChatbotMobile />
                   </div>
@@ -574,19 +590,19 @@ export default function ItekadMobileApp() {
                       {steps[4].title}
                     </h2>
                     <p className="text-sm text-gray-600 mt-1">
-                      Track your business cashflow
+                      Jejak aliran tunai perniagaan anda
                     </p>
                   </div>
 
                   <div className="space-y-3">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Description
+                        Penerangan
                       </label>
                       <input
                         value={label}
                         onChange={(e) => setLabel(e.target.value)}
-                        placeholder="e.g. Nasi lemak sales (Monday)"
+                        placeholder="cth. Jualan nasi lemak (Isnin)"
                         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
                       />
                     </div>
@@ -594,7 +610,7 @@ export default function ItekadMobileApp() {
                     <div className="grid grid-cols-3 gap-2">
                       <div className="col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Amount (RM)
+                          Jumlah (RM)
                         </label>
                         <input
                           type="number"
@@ -609,15 +625,15 @@ export default function ItekadMobileApp() {
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                          Type
+                          Jenis
                         </label>
                         <select
                           value={etype}
                           onChange={(e) => setEtype(e.target.value)}
                           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
                         >
-                          <option value="sale">Sale</option>
-                          <option value="expense">Expense</option>
+                          <option value="sale">Jualan</option>
+                          <option value="expense">Perbelanjaan</option>
                         </select>
                       </div>
                     </div>
@@ -626,33 +642,33 @@ export default function ItekadMobileApp() {
                       onClick={addEntry}
                       className="w-full bg-rose-600 text-white font-semibold py-2 rounded-lg text-sm active:bg-rose-700 transition"
                     >
-                      Add Entry
+                      Tambah Entri
                     </button>
                   </div>
                 </MobileCard>
 
                 <MobileCard>
                   <h3 className="font-bold mb-3 text-gray-800">
-                    Monthly Summary
+                    Ringkasan Bulanan
                   </h3>
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     <KPIMobile
-                      label="Sales"
+                      label="Jualan"
                       value={`RM ${totals.sales.toFixed(2)}`}
                       color="green"
                     />
                     <KPIMobile
-                      label="Expenses"
+                      label="Perbelanjaan"
                       value={`RM ${totals.expenses.toFixed(2)}`}
                       color="red"
                     />
                     <KPIMobile
-                      label="Net Income"
+                      label="Pendapatan Bersih"
                       value={`RM ${totals.net.toFixed(2)}`}
                       color="blue"
                     />
                     <KPIMobile
-                      label="Risk Level"
+                      label="Tahap Risiko"
                       value={totals.risk}
                       color={
                         totals.risk === "LOW"
@@ -666,7 +682,7 @@ export default function ItekadMobileApp() {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Monthly Instalment: RM {instalment}
+                      Ansuran Bulanan: RM {instalment}
                     </label>
                     <input
                       type="range"
@@ -684,7 +700,7 @@ export default function ItekadMobileApp() {
                             : "text-red-600"
                         }`}
                       >
-                        Surplus: RM {totals.surplus.toFixed(2)}
+                        Lebihan: RM {totals.surplus.toFixed(2)}
                       </span>
                     </div>
                   </div>
@@ -707,7 +723,7 @@ export default function ItekadMobileApp() {
                       {steps[5].title}
                     </h2>
                     <p className="text-sm text-gray-600 mt-1">
-                      Comprehensive risk assessment report
+                      Laporan penilaian risiko komprehensif
                     </p>
                   </div>
 
@@ -740,19 +756,19 @@ export default function ItekadMobileApp() {
                     {steps[6].title}
                   </h2>
                   <p className="text-sm text-gray-600 mt-1">
-                    Protect yourself from fraud
+                    Lindungi diri anda dari penipuan
                   </p>
                 </div>
 
                 <div className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Paste suspicious message:
+                      Tampal mesej mencurigakan:
                     </label>
                     <textarea
                       value={sms}
                       onChange={(e) => setSms(e.target.value)}
-                      placeholder="Paste suspicious SMS/WhatsApp here..."
+                      placeholder="Tampal SMS/WhatsApp mencurigakan di sini..."
                       className="w-full border border-gray-300 rounded-lg px-3 py-3 text-sm h-32 resize-none"
                     />
                   </div>
@@ -767,7 +783,7 @@ export default function ItekadMobileApp() {
                     {scamFindings.length ? (
                       <>
                         <div className="font-bold text-red-700 mb-2">
-                          ⚠️ Scam Alert!
+                          ⚠️ Amaran Penipuan!
                         </div>
                         <ul className="space-y-1">
                           {scamFindings.map((f, i) => (
@@ -783,15 +799,15 @@ export default function ItekadMobileApp() {
                       </>
                     ) : (
                       <div className="text-green-700 font-medium">
-                        ✅ No obvious red flags detected
+                        ✅ Tiada tanda amaran jelas dikesan
                       </div>
                     )}
                   </div>
 
                   <div className="p-3 bg-blue-50 rounded-lg">
                     <div className="text-xs text-blue-800">
-                      <strong>Remember:</strong> Bank Islam will never ask for
-                      your OTP/TAC or request upfront processing fees.
+                      <strong>Ingat:</strong> Bank Islam tidak akan meminta
+                      OTP/TAC anda atau meminta yuran pemprosesan pendahuluan.
                     </div>
                   </div>
                 </div>
@@ -807,7 +823,7 @@ export default function ItekadMobileApp() {
                     {steps[7].title}
                   </h2>
                   <p className="text-sm text-gray-600 mt-1">
-                    Ready for the next level?
+                    Bersedia untuk peringkat seterusnya?
                   </p>
                 </div>
 
@@ -831,7 +847,7 @@ export default function ItekadMobileApp() {
                   : "bg-gray-100 text-gray-700 active:bg-gray-200"
               }`}
             >
-              ← Back
+              ← Kembali
             </button>
 
             {/* Admin Mode Toggle - Hidden for regular users */}
@@ -840,7 +856,7 @@ export default function ItekadMobileApp() {
                 window.location.href = window.location.href + "?admin=true";
               }}
               className="px-3 py-2 text-xs bg-gray-50 text-gray-500 rounded-lg hover:bg-gray-100 transition"
-              title="Admin Access"
+              title="Akses Pentadbir"
             >
               🏛️
             </button>
@@ -856,7 +872,7 @@ export default function ItekadMobileApp() {
                   : "bg-rose-600 text-white active:bg-rose-700"
               }`}
             >
-              Next →
+              Seterusnya →
             </button>
           </div>
         </div>
@@ -894,14 +910,14 @@ function ChatbotMobile() {
         <input
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Ask anything... (BM/EN)"
+          placeholder="Tanya apa sahaja... (BM/EN)"
           className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm"
         />
         <button
           onClick={ask}
           className="px-4 py-2 rounded-lg bg-rose-600 text-white font-medium text-sm active:bg-rose-700 transition"
         >
-          Ask
+          Tanya
         </button>
       </div>
       {a && (
@@ -927,16 +943,16 @@ function GraduationMobile({
     <div className="space-y-4">
       <div className="grid grid-cols-2 gap-3">
         <KPIMobile
-          label="Monthly Net"
+          label="Bersih Bulanan"
           value={`RM ${totals.net.toFixed(2)}`}
           color="blue"
         />
-        <KPIMobile label="Tenure" value={`${months} months`} color="blue" />
+        <KPIMobile label="Tempoh" value={`${months} bulan`} color="blue" />
       </div>
 
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          On-time Repayment: {onTimePct}%
+          Bayaran Balik Tepat Masa: {onTimePct}%
         </label>
         <input
           type="range"
@@ -955,10 +971,10 @@ function GraduationMobile({
             : "border-amber-300 bg-amber-50"
         }`}
       >
-        <div className="font-bold text-lg mb-2">Graduation Assessment</div>
+        <div className="font-bold text-lg mb-2">Penilaian Tamadun</div>
         <div className="space-y-1 text-sm mb-3">
           <div className="flex items-center justify-between">
-            <span>Net cashflow positive</span>
+            <span>Aliran tunai bersih positif</span>
             <span
               className={totals.net > 0 ? "text-green-600" : "text-red-600"}
             >
@@ -966,7 +982,7 @@ function GraduationMobile({
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span>On-time repayment ≥ 85%</span>
+            <span>Bayaran balik tepat masa ≥ 85%</span>
             <span
               className={onTimePct >= 85 ? "text-green-600" : "text-red-600"}
             >
@@ -974,7 +990,7 @@ function GraduationMobile({
             </span>
           </div>
           <div className="flex items-center justify-between">
-            <span>Business tenure ≥ 12 months</span>
+            <span>Tempoh perniagaan ≥ 12 bulan</span>
             <span className={months >= 12 ? "text-green-600" : "text-red-600"}>
               {months >= 12 ? "✓" : "✗"}
             </span>
@@ -983,10 +999,12 @@ function GraduationMobile({
 
         <div className="font-bold text-center">
           {eligible ? (
-            <span className="text-green-700">🎉 Ready to Graduate! ✅</span>
+            <span className="text-green-700">
+              🎉 Bersedia untuk Tamadun! ✅
+            </span>
           ) : (
             <span className="text-amber-700">
-              📈 Keep Building Your Track Record
+              📈 Teruskan Membina Rekod Anda
             </span>
           )}
         </div>
@@ -1037,14 +1055,14 @@ function EntriesListMobile({
   if (entries.length === 0) {
     return (
       <div className="mt-4 p-3 bg-gray-50 rounded-lg text-center text-sm text-gray-500">
-        No entries yet. Add your sales and expenses above.
+        Tiada entri lagi. Tambah jualan dan perbelanjaan anda di atas.
       </div>
     );
   }
 
   return (
     <div className="mt-4">
-      <h4 className="font-bold mb-2 text-gray-800">Recent Entries</h4>
+      <h4 className="font-bold mb-2 text-gray-800">Entri Terkini</h4>
       <div className="space-y-2 max-h-48 overflow-y-auto">
         {entries.slice(-5).map((e) => (
           <div
@@ -1083,7 +1101,7 @@ function EntriesListMobile({
       </div>
       {entries.length > 5 && (
         <div className="text-xs text-gray-500 text-center mt-2">
-          Showing last 5 entries ({entries.length} total)
+          Menunjukkan 5 entri terakhir ({entries.length} jumlah)
         </div>
       )}
     </div>
