@@ -17,7 +17,7 @@ export default function Journey() {
     {
       icon: "🤖",
       title: "Auto Vetting",
-      desc: "Check your application status",
+      desc: "Semak status permohonan anda",
     },
     {
       icon: "🎓",

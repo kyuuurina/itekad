@@ -95,6 +95,98 @@ const mockCustomerDetails = {
         "Disiplin dalam pengurusan kewangan, selalu bayar bil tepat masa. Mempunyai akaun simpanan dan pelaburan ASB. Tidak mempunyai hutang kad kredit. Rajin menyimpan untuk pendidikan anak-anak dan haji.",
     },
   },
+  2: {
+    id: 2,
+    name: "Siti Nurhaliza",
+    ic: "920508-10-4321",
+    phone: "019-8765432",
+    email: "siti@email.com",
+    businessType: "Kek & Bakeri Online",
+    businessName: "Kek Manis Siti",
+    loanAmount: 15000,
+    monthlyIncome: 1500,
+    creditScore: 610,
+    status: "rejected",
+    disbursementDate: "",
+    applicationDate: "2024-10-12",
+    location: "Shah Alam, Selangor",
+    repaymentHistory: 72,
+    businessAddress: "No. 12, Jalan Bunga Raya, Seksyen 7, Shah Alam",
+    employeeCount: 1,
+    businessAge: 10,
+    monthlyExpenses: 1200,
+    familySize: 3,
+    dependents: 1,
+    maritalStatus: "Berkahwin",
+    education: "Diploma",
+    previousLoans: 0,
+    bankingHistory: 3,
+    collateral: "Tiada",
+    guarantor: "Suami",
+    financialRecords: {
+      monthlyData: [
+        {
+          month: "Jan",
+          income: 1500,
+          expenses: 1100,
+          profit: 400,
+          zakat: 0,
+          savings: 50,
+        },
+        {
+          month: "Feb",
+          income: 1500,
+          expenses: 1150,
+          profit: 350,
+          zakat: 0,
+          savings: 30,
+        },
+        {
+          month: "Mar",
+          income: 1500,
+          expenses: 1200,
+          profit: 300,
+          zakat: 0,
+          savings: 20,
+        },
+        {
+          month: "Apr",
+          income: 1500,
+          expenses: 1180,
+          profit: 320,
+          zakat: 0,
+          savings: 20,
+        },
+        {
+          month: "May",
+          income: 1500,
+          expenses: 1170,
+          profit: 330,
+          zakat: 0,
+          savings: 20,
+        },
+        {
+          month: "Jun",
+          income: 1500,
+          expenses: 1190,
+          profit: 310,
+          zakat: 0,
+          savings: 10,
+        },
+      ],
+      yearlyTrend: "Stabil dengan margin kecil",
+      peakSeason: "Aidilfitri & Cuti sekolah",
+      challenges: "Kos penghantaran dan bahan naik",
+    },
+    aiSummary: {
+      family:
+        "Berkahwin dengan seorang anak. Suami bekerja sepenuh masa dan bantu operasi pada hujung minggu.",
+      personal:
+        "Siti berumur 33 tahun, memulakan perniagaan bakeri online sejak 10 bulan lalu.",
+      financialBehavior:
+        "Bayaran bil kebanyakan tepat masa tetapi simpanan rendah kerana komitmen tinggi.",
+    },
+  },
 };
 
 interface CustomerDetailProps {
@@ -299,6 +391,8 @@ function OverviewTab({
   totalZakat: number;
   avgProfit: number;
 }) {
+  const isSiti = customer?.id === 2 || customer?.name === "Siti Nurhaliza";
+  const isAhmad = customer?.id === 1 || customer?.name === "Ahmad bin Abdullah";
   const keyMetrics = [
     {
       title: "Pendapatan Bulanan",
@@ -451,6 +545,214 @@ function OverviewTab({
             </p>
           </div>
         </div>
+      </div>
+
+      {/* Ringkasan Bank */}
+      <div className="bg-white rounded-lg border border-gray-200 p-6">
+        <h3 className="font-bold text-gray-800 mb-2">Ringkasan Bank</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-4">
+          <div
+            className={`${
+              isSiti
+                ? "bg-yellow-50 text-yellow-700"
+                : "bg-green-50 text-green-700"
+            } py-2 rounded-lg px-3`}
+          >
+            {isSiti ? "⚠ CCRIS: Bertanda" : "✔ CCRIS: Bersih"}
+          </div>
+          <div className="bg-green-50 text-green-700 py-2 rounded-lg px-3">
+            ✔ CTOS: Tiada Isu
+          </div>
+          <div className="bg-green-50 text-green-700 py-2 rounded-lg px-3">
+            ✔ Tempoh: OK
+          </div>
+        </div>
+
+        {isSiti ? (
+          <div className="border rounded-lg p-4">
+            <div className="bg-gray-50 rounded-lg p-3 border">
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <div className="text-gray-500">Pendapatan Bulanan</div>
+                  <div className="font-semibold">
+                    RM {(1500).toLocaleString("en-MY")}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-500">Pinjaman Sedia Ada</div>
+                  <div className="font-semibold">
+                    RM {(500).toLocaleString("en-MY")}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-500">Ansuran Dicadangkan</div>
+                  <div className="font-semibold">
+                    RM {(700).toLocaleString("en-MY")}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-500">Jumlah Komitmen</div>
+                  <div className="font-semibold">
+                    RM {(500 + 700).toLocaleString("en-MY")}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 flex items-center justify-between">
+                <div>
+                  <div className="text-gray-500">DSR</div>
+                  <div className="font-semibold text-lg">
+                    {Math.round(((500 + 700) / 1500) * 100)}%
+                  </div>
+                </div>
+                <div className="font-bold px-3 py-2 rounded-lg text-white bg-red-600">
+                  ❌ GAGAL
+                </div>
+              </div>
+              <div className="mt-3 text-xs text-gray-700">
+                DSR terlalu tinggi — semakan manual diperlukan.
+              </div>
+            </div>
+          </div>
+        ) : isAhmad ? (
+          <div className="border rounded-lg p-4">
+            <div className="bg-gray-50 rounded-lg p-3 border">
+              <div className="grid grid-cols-2 gap-2 text-sm">
+                <div>
+                  <div className="text-gray-500">Pendapatan Bulanan</div>
+                  <div className="font-semibold">
+                    RM {(3000).toLocaleString("en-MY")}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-500">Pinjaman Sedia Ada</div>
+                  <div className="font-semibold">
+                    RM {(200).toLocaleString("en-MY")}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-500">Ansuran Dicadangkan</div>
+                  <div className="font-semibold">
+                    RM {(400).toLocaleString("en-MY")}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-gray-500">Jumlah Komitmen</div>
+                  <div className="font-semibold">
+                    RM {(200 + 400).toLocaleString("en-MY")}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-3 flex items-center justify-between">
+                <div>
+                  <div className="text-gray-500">DSR</div>
+                  <div className="font-semibold text-lg">
+                    {Math.round(((200 + 400) / 3000) * 100)}%
+                  </div>
+                </div>
+                <div className="font-bold px-3 py-2 rounded-lg text-white bg-green-600">
+                  ✅ LULUS
+                </div>
+              </div>
+              <div className="mt-3 text-xs text-gray-700">
+                DSR rendah — pemohon mampu membayar. Teruskan.
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="border rounded-lg p-4">
+            <h4 className="font-semibold mb-2">🔎 Contoh Pengiraan DSR</h4>
+            <p className="text-xs text-gray-600 mb-3">
+              Contoh pengiraan DSR oleh sistem.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-gray-50 rounded-lg p-3 border">
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div>
+                    <div className="text-gray-500">Pendapatan Bulanan</div>
+                    <div className="font-semibold">
+                      RM {(3000).toLocaleString("en-MY")}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">Pinjaman Sedia Ada</div>
+                    <div className="font-semibold">
+                      RM {(200).toLocaleString("en-MY")}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">Ansuran Dicadangkan</div>
+                    <div className="font-semibold">
+                      RM {(400).toLocaleString("en-MY")}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">Jumlah Komitmen</div>
+                    <div className="font-semibold">
+                      RM {(200 + 400).toLocaleString("en-MY")}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3 flex items-center justify-between">
+                  <div>
+                    <div className="text-gray-500">DSR</div>
+                    <div className="font-semibold text-lg">
+                      {Math.round(((200 + 400) / 3000) * 100)}%
+                    </div>
+                  </div>
+                  <div className="font-bold px-3 py-2 rounded-lg text-white bg-green-600">
+                    ✅ LULUS
+                  </div>
+                </div>
+                <div className="mt-3 text-xs text-gray-700">
+                  DSR rendah — pemohon mampu membayar. Teruskan.
+                </div>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-3 border">
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div>
+                    <div className="text-gray-500">Pendapatan Bulanan</div>
+                    <div className="font-semibold">
+                      RM {(1500).toLocaleString("en-MY")}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">Pinjaman Sedia Ada</div>
+                    <div className="font-semibold">
+                      RM {(500).toLocaleString("en-MY")}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">Ansuran Dicadangkan</div>
+                    <div className="font-semibold">
+                      RM {(700).toLocaleString("en-MY")}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-500">Jumlah Komitmen</div>
+                    <div className="font-semibold">
+                      RM {(500 + 700).toLocaleString("en-MY")}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-3 flex items-center justify-between">
+                  <div>
+                    <div className="text-gray-500">DSR</div>
+                    <div className="font-semibold text-lg">
+                      {Math.round(((500 + 700) / 1500) * 100)}%
+                    </div>
+                  </div>
+                  <div className="font-bold px-3 py-2 rounded-lg text-white bg-red-600">
+                    ❌ GAGAL
+                  </div>
+                </div>
+                <div className="mt-3 text-xs text-gray-700">
+                  DSR terlalu tinggi — semakan manual diperlukan.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

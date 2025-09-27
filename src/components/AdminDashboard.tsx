@@ -165,49 +165,7 @@ const AdminDashboard = () => {
     );
   };
 
-  // Quick DSR demo state (Bank POV)
-  const [dsrKind, setDsrKind] = useState<"pass" | "fail" | null>(null);
-  let dsrData: null | {
-    income: number;
-    other: number;
-    repay: number;
-    total: number;
-    dsr: number;
-    status: "PASS" | "FAIL";
-    summary: string;
-    color: "green" | "red";
-  } = null;
-  if (dsrKind === "pass") {
-    const income = 3000;
-    const other = 200;
-    const repay = 400;
-    const total = other + repay;
-    dsrData = {
-      income,
-      other,
-      repay,
-      total,
-      dsr: Math.round((total / income) * 100),
-      status: "PASS",
-      summary: "DSR is low — applicant can repay. Proceed.",
-      color: "green",
-    };
-  } else if (dsrKind === "fail") {
-    const income = 1500;
-    const other = 500;
-    const repay = 700;
-    const total = other + repay;
-    dsrData = {
-      income,
-      other,
-      repay,
-      total,
-      dsr: Math.round((total / income) * 100),
-      status: "FAIL",
-      summary: "DSR too high — manual review needed.",
-      color: "red",
-    };
-  }
+  // Removed Quick DSR demo; moved into Ringkasan tab of customer profile
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -368,99 +326,7 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Bank POV: Quick DSR Demo moved from Journey */}
-          <div className="bg-white rounded-xl border border-gray-200 p-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-2">
-              Bank’s View
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 mb-4">
-              <div className="bg-green-50 text-green-700 py-2 rounded-lg px-3">
-                ✔ CCRIS: Clean
-              </div>
-              <div className="bg-green-50 text-green-700 py-2 rounded-lg px-3">
-                ✔ CTOS: No Issues
-              </div>
-              <div className="bg-green-50 text-green-700 py-2 rounded-lg px-3">
-                ✔ Tenure: OK
-              </div>
-            </div>
-
-            <div className="border rounded-lg p-4">
-              <h4 className="font-semibold mb-2">
-                🔎 Quick DSR Demo (Bank POV)
-              </h4>
-              <p className="text-xs text-gray-600 mb-3">
-                System-calculated Debt Service Ratio example.
-              </p>
-              <div className="flex gap-2">
-                <button
-                  className="flex-1 py-2 rounded-lg bg-green-600 text-white font-semibold"
-                  onClick={() => setDsrKind("pass")}
-                >
-                  Example: Eligible (PASS)
-                </button>
-                <button
-                  className="flex-1 py-2 rounded-lg bg-red-600 text-white font-semibold"
-                  onClick={() => setDsrKind("fail")}
-                >
-                  Example: Not Eligible (FAIL)
-                </button>
-              </div>
-
-              {dsrData && (
-                <div className="mt-4">
-                  <div className="bg-gray-50 rounded-lg p-3 border">
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div>
-                        <div className="text-gray-500">Monthly Income</div>
-                        <div className="font-semibold">
-                          RM {dsrData.income.toLocaleString("en-MY")}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-gray-500">Existing Loans</div>
-                        <div className="font-semibold">
-                          RM {dsrData.other.toLocaleString("en-MY")}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-gray-500">Proposed Repayment</div>
-                        <div className="font-semibold">
-                          RM {dsrData.repay.toLocaleString("en-MY")}
-                        </div>
-                      </div>
-                      <div>
-                        <div className="text-gray-500">Total Commitments</div>
-                        <div className="font-semibold">
-                          RM {dsrData.total.toLocaleString("en-MY")}
-                        </div>
-                      </div>
-                    </div>
-                    <div className="mt-3 flex items-center justify-between">
-                      <div>
-                        <div className="text-gray-500">DSR</div>
-                        <div className="font-semibold text-lg">
-                          {dsrData.dsr}%
-                        </div>
-                      </div>
-                      <div
-                        className={`font-bold px-3 py-2 rounded-lg text-white ${
-                          dsrData.color === "green"
-                            ? "bg-green-600"
-                            : "bg-red-600"
-                        }`}
-                      >
-                        {dsrData.status === "PASS" ? "✅ PASS" : "❌ FAIL"}
-                      </div>
-                    </div>
-                    <div className="mt-3 text-xs text-gray-700">
-                      {dsrData.summary}
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+          {/* Bank POV: DSR demo moved to Ringkasan tab in customer profile */}
         </div>
       </div>
     </div>
