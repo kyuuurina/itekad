@@ -94,6 +94,26 @@ const mockCustomerDetails = {
       financialBehavior:
         "Disiplin dalam pengurusan kewangan, selalu bayar bil tepat masa. Mempunyai akaun simpanan dan pelaburan ASB. Tidak mempunyai hutang kad kredit. Rajin menyimpan untuk pendidikan anak-anak dan haji.",
     },
+    aiLookalike: {
+      similarity: 80,
+      approvedRate: 95,
+      defaultRate: 5,
+      riskFactors: [
+        "Kos bahan mentah naik",
+        "Persaingan ketat",
+        "Bergantung kepada satu sumber pendapatan",
+      ],
+      positiveFactors: [
+        "Sejarah bayaran excellent",
+        "Pengalaman luas",
+        "Keluarga stabil",
+        "Disiplin kewangan",
+      ],
+      recommendation: "APPROVE",
+      confidence: 87,
+      processingTime: "2.3 seconds",
+      matchedProfiles: 1247,
+    },
   },
   2: {
     id: 2,
@@ -185,6 +205,26 @@ const mockCustomerDetails = {
         "Siti berumur 33 tahun, memulakan perniagaan bakeri online sejak 10 bulan lalu.",
       financialBehavior:
         "Bayaran bil kebanyakan tepat masa tetapi simpanan rendah kerana komitmen tinggi.",
+    },
+    aiLookalike: {
+      similarity: 65,
+      approvedRate: 42,
+      defaultRate: 18,
+      riskFactors: [
+        "DSR terlalu tinggi",
+        "Pendapatan tidak stabil",
+        "Perniagaan baru",
+        "Simpanan rendah",
+      ],
+      positiveFactors: [
+        "Tiada sejarah hutang",
+        "Komitmen keluarga",
+        "Perniagaan berkembang",
+      ],
+      recommendation: "REJECT",
+      confidence: 78,
+      processingTime: "1.8 seconds",
+      matchedProfiles: 892,
     },
   },
 };

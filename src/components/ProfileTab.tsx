@@ -64,6 +64,12 @@ export default function ProfileTab() {
             Show Parameters Used
           </button>
           <button
+            onClick={() => toggle("ai")}
+            className="w-full py-2 rounded-lg bg-purple-600 text-white font-semibold"
+          >
+            AI Lookalike Analysis
+          </button>
+          <button
             onClick={() => toggle("risk")}
             className="w-full py-2 rounded-lg bg-indigo-600 text-white font-semibold"
           >
@@ -154,6 +160,155 @@ export default function ProfileTab() {
               Cash‑only businesses can still be measured with photo receipts,
               simple sales logs, or a free bookkeeping tool in‑app.
             </p>
+          </div>
+        )}
+
+        {openPanels["ai"] && (
+          <div className="space-y-4 text-sm">
+            {/* AI Insights */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              {/* Similarity Score */}
+              <div className="bg-white rounded-lg border border-gray-200 p-4">
+                <h4 className="font-bold text-gray-800 mb-3">
+                  🎯 Similarity Analysis
+                </h4>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-600 mb-2">
+                    80%
+                  </div>
+                  <p className="text-xs text-gray-600 mb-3">
+                    Similarity to previous applicants
+                  </p>
+                  <div className="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-blue-600 transition-all duration-1000"
+                      style={{ width: "80%" }}
+                    ></div>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-2">
+                    Based on income, risk profile, repayment behavior
+                  </p>
+                </div>
+              </div>
+
+              {/* Success Rate */}
+              <div className="bg-white rounded-lg border border-gray-200 p-4">
+                <h4 className="font-bold text-gray-800 mb-3">
+                  ✅ Success Rate
+                </h4>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-600 mb-2">
+                    95%
+                  </div>
+                  <p className="text-xs text-gray-600 mb-3">
+                    Lookalikes approved & repaid successfully
+                  </p>
+                  <div className="w-full bg-green-100 h-2 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-green-600 transition-all duration-1000"
+                      style={{ width: "95%" }}
+                    ></div>
+                  </div>
+                  <p className="text-xs text-green-600 mt-2 font-medium">
+                    High probability of successful outcome
+                  </p>
+                </div>
+              </div>
+
+              {/* Risk Analysis */}
+              <div className="bg-white rounded-lg border border-gray-200 p-4">
+                <h4 className="font-bold text-gray-800 mb-3">
+                  ⚠️ Risk Analysis
+                </h4>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-red-600 mb-2">5%</div>
+                  <p className="text-xs text-gray-600 mb-3">
+                    Defaulted among lookalikes
+                  </p>
+                  <div className="w-full bg-red-100 h-2 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-red-600 transition-all duration-1000"
+                      style={{ width: "5%" }}
+                    ></div>
+                  </div>
+                  <p className="text-xs text-red-600 mt-2">
+                    Risk factors identified below
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* AI Recommendation */}
+            <div className="bg-white rounded-lg border border-gray-200 p-4">
+              <h4 className="font-bold text-gray-800 mb-4">
+                🎯 AI Recommendation
+              </h4>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <div className="text-center">
+                  <div className="inline-flex items-center px-4 py-2 rounded-full text-sm font-bold bg-green-100 text-green-800 border-2 border-green-300">
+                    ✅ APPROVE
+                  </div>
+                  <div className="mt-3">
+                    <div className="text-xl font-bold text-gray-800">87%</div>
+                    <p className="text-xs text-gray-600">Confidence Level</p>
+                  </div>
+                  <div className="mt-3 text-xs text-gray-600">
+                    <p>Processing Time: 2.3 seconds</p>
+                    <p>Matched Profiles: 1,247</p>
+                  </div>
+                </div>
+
+                <div>
+                  <h5 className="font-semibold text-gray-700 mb-3">
+                    Key Factors
+                  </h5>
+                  <div className="space-y-3">
+                    <div>
+                      <h6 className="text-xs font-medium text-green-700 mb-2">
+                        ✅ Positive Factors:
+                      </h6>
+                      <ul className="space-y-1">
+                        <li className="text-xs text-gray-600 flex items-start">
+                          <span className="text-green-500 mr-2">•</span>
+                          Sejarah bayaran excellent
+                        </li>
+                        <li className="text-xs text-gray-600 flex items-start">
+                          <span className="text-green-500 mr-2">•</span>
+                          Pengalaman luas
+                        </li>
+                        <li className="text-xs text-gray-600 flex items-start">
+                          <span className="text-green-500 mr-2">•</span>
+                          Keluarga stabil
+                        </li>
+                        <li className="text-xs text-gray-600 flex items-start">
+                          <span className="text-green-500 mr-2">•</span>
+                          Disiplin kewangan
+                        </li>
+                      </ul>
+                    </div>
+                    <div>
+                      <h6 className="text-xs font-medium text-red-700 mb-2">
+                        ⚠️ Risk Factors:
+                      </h6>
+                      <ul className="space-y-1">
+                        <li className="text-xs text-gray-600 flex items-start">
+                          <span className="text-red-500 mr-2">•</span>
+                          Kos bahan mentah naik
+                        </li>
+                        <li className="text-xs text-gray-600 flex items-start">
+                          <span className="text-red-500 mr-2">•</span>
+                          Persaingan ketat
+                        </li>
+                        <li className="text-xs text-gray-600 flex items-start">
+                          <span className="text-red-500 mr-2">•</span>
+                          Bergantung kepada satu sumber pendapatan
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 

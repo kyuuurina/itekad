@@ -326,7 +326,101 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Bank POV: DSR demo moved to Ringkasan tab in customer profile */}
+          {/* Enhanced AI Output (Stage 2 – Lookalike Matching) */}
+          <div className="bg-white rounded-xl border border-gray-200 p-6 lg:col-span-2">
+            <h3 className="text-lg font-bold text-gray-800 mb-2">
+              Enhanced AI Output (Stage 2 – Lookalike Matching)
+            </h3>
+            {/* Stepper */}
+            <div className="flex flex-wrap items-center gap-2 text-xs mb-4">
+              <div className="px-2.5 py-1 rounded-full bg-gray-100 text-gray-700">
+                Step 1: Applicant Profile Generated
+              </div>
+              <div className="px-2.5 py-1 rounded-full bg-gray-100 text-gray-700">
+                Step 2: AI Database Comparison
+              </div>
+              <div className="px-2.5 py-1 rounded-full bg-green-100 text-green-800 font-semibold">
+                Step 3: Lookalike Insights
+              </div>
+              <div className="px-2.5 py-1 rounded-full bg-gray-100 text-gray-700">
+                Step 4: Faster Decision
+              </div>
+            </div>
+
+            {/* Insights Row */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="rounded-lg border border-gray-200 p-4">
+                <div className="text-sm text-gray-600">
+                  Similarity to previous applicants
+                </div>
+                <div className="mt-1 text-3xl font-extrabold text-gray-900">
+                  80%
+                </div>
+                <div className="mt-2 w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-blue-600"
+                    style={{ width: "80%" }}
+                  ></div>
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-gray-200 p-4">
+                <div className="text-sm text-gray-600">
+                  Lookalikes approved & repaid successfully
+                </div>
+                <div className="mt-1 text-3xl font-extrabold text-green-700">
+                  95%
+                </div>
+                <div className="mt-2 w-full bg-green-100 h-2 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-green-600"
+                    style={{ width: "95%" }}
+                  ></div>
+                </div>
+                <div className="mt-2 text-xs text-gray-600">
+                  High probability of successful outcome
+                </div>
+              </div>
+
+              <div className="rounded-lg border border-gray-200 p-4">
+                <div className="text-sm text-gray-600">
+                  Defaulted among lookalikes
+                </div>
+                <div className="mt-1 text-3xl font-extrabold text-rose-700">
+                  5%
+                </div>
+                <div className="mt-2 w-full bg-rose-100 h-2 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-rose-600"
+                    style={{ width: "5%" }}
+                  ></div>
+                </div>
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 text-xs border border-rose-200">
+                    ⚠ High commitments
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 text-xs border border-rose-200">
+                    ⚠ Irregular income
+                  </span>
+                  <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 text-xs border border-rose-200">
+                    ⚠ Young business tenure
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Outcome Hint */}
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div className="p-3 rounded-lg bg-blue-50 text-blue-800 border border-blue-200">
+                🧠 AI builds applicant’s financial summary and compares with
+                historical profiles
+              </div>
+              <div className="p-3 rounded-lg bg-green-50 text-green-800 border border-green-200">
+                ⚡ Staff sees recommendation + probability → faster, more
+                consistent lending
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
