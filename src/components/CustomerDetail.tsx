@@ -245,16 +245,16 @@ const CustomerDetail = ({ customerId, onBack }: CustomerDetailProps) => {
         <div className="text-center">
           <div className="text-6xl mb-4">❌</div>
           <h2 className="text-2xl font-bold text-gray-800 mb-2">
-            Customer Not Found
+            Pelanggan Tidak Dijumpai
           </h2>
           <p className="text-gray-600 mb-4">
-            The requested customer profile could not be found.
+            Profil pelanggan yang diminta tidak dapat dijumpai.
           </p>
           <button
             onClick={onBack}
             className="bg-rose-600 text-white px-6 py-2 rounded-lg hover:bg-rose-700 transition"
           >
-            ← Back to List
+            ← Kembali ke Senarai
           </button>
         </div>
       </div>

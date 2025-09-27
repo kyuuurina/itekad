@@ -48,7 +48,7 @@ const AdminApp = () => {
           }`}
         >
           <span className="text-lg mb-1">👥</span>
-          <span className="text-xs font-medium">Customers</span>
+          <span className="text-xs font-medium">Pelanggan</span>
         </button>
 
         <button
@@ -60,7 +60,7 @@ const AdminApp = () => {
           className="flex flex-col items-center py-2 px-3 rounded-lg text-gray-600 hover:bg-gray-100 transition"
         >
           <span className="text-lg mb-1">📱</span>
-          <span className="text-xs font-medium">App View</span>
+          <span className="text-xs font-medium">Paparan App</span>
         </button>
       </div>
     </div>
@@ -75,7 +75,7 @@ const AdminApp = () => {
             <div className="text-2xl mr-3">🏛️</div>
             <div>
               <h1 className="text-xl font-bold text-gray-800">Bank Islam</h1>
-              <p className="text-sm text-gray-600">Admin Portal</p>
+              <p className="text-sm text-gray-600">Portal Pentadbir</p>
             </div>
           </div>
         </div>
@@ -103,7 +103,7 @@ const AdminApp = () => {
               }`}
             >
               <span className="mr-3 text-lg">👥</span>
-              Customer Profiles
+              Profil Pelanggan
             </button>
 
             <div className="border-t border-gray-200 mt-6 pt-6">
@@ -116,7 +116,7 @@ const AdminApp = () => {
                 className="group w-full flex items-center px-4 py-3 text-sm font-medium text-gray-700 rounded-lg hover:bg-gray-100 transition"
               >
                 <span className="mr-3 text-lg">📱</span>
-                Switch to App View
+                Tukar ke Paparan App
               </button>
             </div>
           </nav>
@@ -127,7 +127,9 @@ const AdminApp = () => {
                 <span className="text-white text-sm font-bold">A</span>
               </div>
               <div className="ml-3">
-                <p className="text-sm font-medium text-gray-700">Admin User</p>
+                <p className="text-sm font-medium text-gray-700">
+                  Pengguna Pentadbir
+                </p>
                 <p className="text-xs text-gray-500">admin@bankislam.com</p>
               </div>
             </div>

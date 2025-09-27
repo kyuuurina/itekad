@@ -138,10 +138,10 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-800">
-              Customer Financial Profiles
+              Profil Kewangan Pelanggan
             </h1>
             <p className="text-gray-600 mt-1">
-              {filteredCustomers.length} customers found
+              {filteredCustomers.length} pelanggan dijumpai
             </p>
           </div>
         </div>
@@ -153,11 +153,11 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Search
+                Cari
               </label>
               <input
                 type="text"
-                placeholder="Search by name, business, or IC..."
+                placeholder="Cari mengikut nama, perniagaan, atau IC..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500 focus:border-transparent"
@@ -173,26 +173,26 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
                 onChange={(e) => setStatusFilter(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500"
               >
-                <option value="all">All Status</option>
-                <option value="approved">Approved</option>
-                <option value="pending">Pending</option>
-                <option value="rejected">Rejected</option>
+                <option value="all">Semua Status</option>
+                <option value="approved">Diluluskan</option>
+                <option value="pending">Menunggu</option>
+                <option value="rejected">Ditolak</option>
               </select>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Sort By
+                Susun Mengikut
               </label>
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500"
               >
-                <option value="date">Application Date</option>
-                <option value="name">Name</option>
-                <option value="risk">Risk Score</option>
-                <option value="income">Monthly Income</option>
+                <option value="date">Tarikh Permohonan</option>
+                <option value="name">Nama</option>
+                <option value="risk">Skor Risiko</option>
+                <option value="income">Pendapatan Bulanan</option>
               </select>
             </div>
           </div>
@@ -227,7 +227,7 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
               {/* Key Metrics */}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <p className="text-xs text-gray-500">Risk Score</p>
+                  <p className="text-xs text-gray-500">Skor Risiko</p>
                   <p
                     className={`text-lg font-bold ${getRiskScoreColor(
                       customer.riskScore
@@ -237,7 +237,7 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-500">Monthly Income</p>
+                  <p className="text-xs text-gray-500">Pendapatan Bulanan</p>
                   <p className="text-lg font-bold text-gray-800">
                     RM {customer.monthlyIncome.toLocaleString()}
                   </p>
@@ -247,21 +247,21 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
               {/* Details */}
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-gray-500">IC Number:</span>
+                  <span className="text-gray-500">No. IC:</span>
                   <span className="font-medium">{customer.ic}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Location:</span>
+                  <span className="text-gray-500">Lokasi:</span>
                   <span className="font-medium">{customer.location}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Applied:</span>
+                  <span className="text-gray-500">Mohon:</span>
                   <span className="font-medium">
                     {new Date(customer.applicationDate).toLocaleDateString()}
                   </span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-gray-500">Phone:</span>
+                  <span className="text-gray-500">Telefon:</span>
                   <span className="font-medium">{customer.phone}</span>
                 </div>
               </div>
@@ -269,7 +269,7 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
               {/* Action Button */}
               <div className="mt-4 pt-4 border-t border-gray-100">
                 <button className="w-full bg-rose-50 text-rose-700 font-medium py-2 rounded-lg hover:bg-rose-100 transition text-sm">
-                  View Full Profile →
+                  Lihat Profil Penuh →
                 </button>
               </div>
             </div>
@@ -281,10 +281,10 @@ const CustomerList = ({ onSelectCustomer }: CustomerListProps) => {
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🔍</div>
             <h3 className="text-xl font-bold text-gray-800 mb-2">
-              No customers found
+              Tiada pelanggan dijumpai
             </h3>
             <p className="text-gray-600">
-              Try adjusting your search criteria or filters.
+              Cuba laraskan kriteria carian atau penapis anda.
             </p>
           </div>
         )}

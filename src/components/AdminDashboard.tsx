@@ -52,7 +52,7 @@ const AdminDashboard = () => {
                   {trend === "up" ? "↗" : "↘"} {percentage}%
                 </span>
                 <span className="text-xs text-gray-600 ml-2">
-                  vs last month
+                  berbanding bulan lepas
                 </span>
               </div>
             )}
@@ -64,23 +64,23 @@ const AdminDashboard = () => {
 
   const QuickActions = () => (
     <div className="bg-white rounded-xl border border-gray-200 p-6">
-      <h3 className="text-lg font-bold text-gray-800 mb-4">Quick Actions</h3>
+      <h3 className="text-lg font-bold text-gray-800 mb-4">Tindakan Pantas</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <button className="flex items-center justify-center p-4 bg-rose-50 border border-rose-200 rounded-lg hover:bg-rose-100 transition">
           <span className="mr-2">📋</span>
-          <span className="font-medium text-rose-800">Review Pending</span>
+          <span className="font-medium text-rose-800">Semak Menunggu</span>
         </button>
         <button className="flex items-center justify-center p-4 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition">
           <span className="mr-2">📊</span>
-          <span className="font-medium text-blue-800">Generate Report</span>
+          <span className="font-medium text-blue-800">Jana Laporan</span>
         </button>
         <button className="flex items-center justify-center p-4 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition">
           <span className="mr-2">✅</span>
-          <span className="font-medium text-green-800">Process Approvals</span>
+          <span className="font-medium text-green-800">Proses Kelulusan</span>
         </button>
         <button className="flex items-center justify-center p-4 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100 transition">
           <span className="mr-2">🔍</span>
-          <span className="font-medium text-purple-800">Search Profiles</span>
+          <span className="font-medium text-purple-800">Cari Profil</span>
         </button>
       </div>
     </div>
@@ -91,35 +91,35 @@ const AdminDashboard = () => {
       {
         id: 1,
         customer: "Ahmad Bin Hassan",
-        action: "Application Approved",
+        action: "Permohonan Diluluskan",
         time: "2 mins ago",
         status: "success",
       },
       {
         id: 2,
         customer: "Siti Nurhaliza",
-        action: "Documents Uploaded",
+        action: "Dokumen Dimuat Naik",
         time: "15 mins ago",
         status: "info",
       },
       {
         id: 3,
         customer: "Muhammad Ali",
-        action: "Interview Scheduled",
+        action: "Temuduga Dijadualkan",
         time: "1 hour ago",
         status: "warning",
       },
       {
         id: 4,
         customer: "Fatimah Abdullah",
-        action: "Application Rejected",
+        action: "Permohonan Ditolak",
         time: "2 hours ago",
         status: "error",
       },
       {
         id: 5,
         customer: "Hassan Yusof",
-        action: "Profile Created",
+        action: "Profil Dibuat",
         time: "3 hours ago",
         status: "info",
       },
@@ -135,7 +135,7 @@ const AdminDashboard = () => {
     return (
       <div className="bg-white rounded-xl border border-gray-200 p-6">
         <h3 className="text-lg font-bold text-gray-800 mb-4">
-          Recent Activity
+          Aktiviti Terkini
         </h3>
         <div className="space-y-4">
           {activities.map((activity) => (
@@ -174,9 +174,9 @@ const AdminDashboard = () => {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-800">
-              Admin Dashboard
+              Dashboard Pentadbir
             </h1>
-            <p className="text-gray-600 mt-1">Bank Islam iTEKAD Program</p>
+            <p className="text-gray-600 mt-1">Program Bank Islam iTEKAD</p>
           </div>
           <div className="mt-4 sm:mt-0">
             <select
@@ -184,10 +184,10 @@ const AdminDashboard = () => {
               onChange={(e) => setTimeframe(e.target.value)}
               className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-rose-500"
             >
-              <option value="7days">Last 7 days</option>
-              <option value="30days">Last 30 days</option>
-              <option value="90days">Last 90 days</option>
-              <option value="1year">Last year</option>
+              <option value="7days">7 hari lepas</option>
+              <option value="30days">30 hari lepas</option>
+              <option value="90days">90 hari lepas</option>
+              <option value="1year">Tahun lepas</option>
             </select>
           </div>
         </div>
@@ -197,26 +197,26 @@ const AdminDashboard = () => {
         {/* Main Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <MetricCard
-            title="Total Applications"
+            title="Jumlah Permohonan"
             value={mockMetrics.total.toLocaleString()}
             color="blue"
           />
           <MetricCard
-            title="Successful Applications"
+            title="Permohonan Berjaya"
             value={mockMetrics.successful.toLocaleString()}
             percentage={12.5}
             trend="up"
             color="green"
           />
           <MetricCard
-            title="Pending Review"
+            title="Menunggu Semakan"
             value={mockMetrics.pending.toLocaleString()}
             percentage={5.2}
             trend="down"
             color="yellow"
           />
           <MetricCard
-            title="Rejected Applications"
+            title="Permohonan Ditolak"
             value={mockMetrics.rejected.toLocaleString()}
             percentage={8.1}
             trend="down"
@@ -228,23 +228,23 @@ const AdminDashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h3 className="text-lg font-bold text-gray-800 mb-4">
-              This Month Performance
+              Prestasi Bulan Ini
             </h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">New Applications</span>
+                <span className="text-gray-600">Permohonan Baru</span>
                 <span className="font-bold text-blue-600">
                   {mockMetrics.thisMonth.applications}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">Approvals</span>
+                <span className="text-gray-600">Kelulusan</span>
                 <span className="font-bold text-green-600">
                   {mockMetrics.thisMonth.approvals}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-gray-600">Approval Rate</span>
+                <span className="text-gray-600">Kadar Kelulusan</span>
                 <span className="font-bold text-purple-600">
                   {mockMetrics.thisMonth.approvalRate}%
                 </span>
@@ -254,22 +254,22 @@ const AdminDashboard = () => {
 
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h3 className="text-lg font-bold text-gray-800 mb-4">
-              Application Status Distribution
+              Taburan Status Permohonan
             </h3>
             <div className="space-y-3">
               <div className="flex items-center">
                 <div className="w-4 h-4 bg-green-500 rounded mr-3"></div>
-                <span className="text-sm text-gray-600 flex-1">Approved</span>
+                <span className="text-sm text-gray-600 flex-1">Diluluskan</span>
                 <span className="font-medium">68.7%</span>
               </div>
               <div className="flex items-center">
                 <div className="w-4 h-4 bg-yellow-500 rounded mr-3"></div>
-                <span className="text-sm text-gray-600 flex-1">Pending</span>
+                <span className="text-sm text-gray-600 flex-1">Menunggu</span>
                 <span className="font-medium">18.8%</span>
               </div>
               <div className="flex items-center">
                 <div className="w-4 h-4 bg-red-500 rounded mr-3"></div>
-                <span className="text-sm text-gray-600 flex-1">Rejected</span>
+                <span className="text-sm text-gray-600 flex-1">Ditolak</span>
                 <span className="font-medium">12.5%</span>
               </div>
             </div>
@@ -284,44 +284,44 @@ const AdminDashboard = () => {
 
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h3 className="text-lg font-bold text-gray-800 mb-4">
-              Risk Assessment Overview
+              Gambaran Penilaian Risiko
             </h3>
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
                   <span className="text-sm text-gray-600">
-                    Low Risk (750-850)
+                    Risiko Rendah (750-850)
                   </span>
                 </div>
-                <span className="font-medium">342 applications</span>
+                <span className="font-medium">342 permohonan</span>
               </div>
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
                   <span className="text-sm text-gray-600">
-                    Good Risk (650-749)
+                    Risiko Baik (650-749)
                   </span>
                 </div>
-                <span className="font-medium">514 applications</span>
+                <span className="font-medium">514 permohonan</span>
               </div>
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
                   <span className="text-sm text-gray-600">
-                    Fair Risk (550-649)
+                    Risiko Sederhana (550-649)
                   </span>
                 </div>
-                <span className="font-medium">234 applications</span>
+                <span className="font-medium">234 permohonan</span>
               </div>
               <div className="flex justify-between items-center">
                 <div className="flex items-center">
                   <div className="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
                   <span className="text-sm text-gray-600">
-                    Poor Risk (&lt;550)
+                    Risiko Tinggi (&lt;550)
                   </span>
                 </div>
-                <span className="font-medium">157 applications</span>
+                <span className="font-medium">157 permohonan</span>
               </div>
             </div>
           </div>
@@ -329,21 +329,21 @@ const AdminDashboard = () => {
           {/* Enhanced AI Output (Stage 2 – Lookalike Matching) */}
           <div className="bg-white rounded-xl border border-gray-200 p-6 lg:col-span-2">
             <h3 className="text-lg font-bold text-gray-800 mb-2">
-              Enhanced AI Output (Stage 2 – Lookalike Matching)
+              Output AI Dipertingkat (Peringkat 2 – Padanan Serupa)
             </h3>
             {/* Stepper */}
             <div className="flex flex-wrap items-center gap-2 text-xs mb-4">
               <div className="px-2.5 py-1 rounded-full bg-gray-100 text-gray-700">
-                Step 1: Applicant Profile Generated
+                Langkah 1: Profil Pemohon Dijana
               </div>
               <div className="px-2.5 py-1 rounded-full bg-gray-100 text-gray-700">
-                Step 2: AI Database Comparison
+                Langkah 2: Perbandingan Pangkalan Data AI
               </div>
               <div className="px-2.5 py-1 rounded-full bg-green-100 text-green-800 font-semibold">
-                Step 3: Lookalike Insights
+                Langkah 3: Pandangan Serupa
               </div>
               <div className="px-2.5 py-1 rounded-full bg-gray-100 text-gray-700">
-                Step 4: Faster Decision
+                Langkah 4: Keputusan Pantas
               </div>
             </div>
 
@@ -351,7 +351,7 @@ const AdminDashboard = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="rounded-lg border border-gray-200 p-4">
                 <div className="text-sm text-gray-600">
-                  Similarity to previous applicants
+                  Persamaan dengan pemohon terdahulu
                 </div>
                 <div className="mt-1 text-3xl font-extrabold text-gray-900">
                   80%
@@ -366,7 +366,7 @@ const AdminDashboard = () => {
 
               <div className="rounded-lg border border-gray-200 p-4">
                 <div className="text-sm text-gray-600">
-                  Lookalikes approved & repaid successfully
+                  Yang serupa diluluskan & dibayar balik dengan jayanya
                 </div>
                 <div className="mt-1 text-3xl font-extrabold text-green-700">
                   95%
@@ -378,13 +378,13 @@ const AdminDashboard = () => {
                   ></div>
                 </div>
                 <div className="mt-2 text-xs text-gray-600">
-                  High probability of successful outcome
+                  Kebarangkalian tinggi untuk hasil yang berjaya
                 </div>
               </div>
 
               <div className="rounded-lg border border-gray-200 p-4">
                 <div className="text-sm text-gray-600">
-                  Defaulted among lookalikes
+                  Mungkir dalam kalangan yang serupa
                 </div>
                 <div className="mt-1 text-3xl font-extrabold text-rose-700">
                   5%
@@ -397,13 +397,13 @@ const AdminDashboard = () => {
                 </div>
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 text-xs border border-rose-200">
-                    ⚠ High commitments
+                    ⚠ Komitmen tinggi
                   </span>
                   <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 text-xs border border-rose-200">
-                    ⚠ Irregular income
+                    ⚠ Pendapatan tidak tetap
                   </span>
                   <span className="px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 text-xs border border-rose-200">
-                    ⚠ Young business tenure
+                    ⚠ Tempoh perniagaan muda
                   </span>
                 </div>
               </div>
@@ -412,12 +412,12 @@ const AdminDashboard = () => {
             {/* Outcome Hint */}
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div className="p-3 rounded-lg bg-blue-50 text-blue-800 border border-blue-200">
-                🧠 AI builds applicant’s financial summary and compares with
-                historical profiles
+                🧠 AI membina ringkasan kewangan pemohon dan membandingkan
+                dengan profil sejarah
               </div>
               <div className="p-3 rounded-lg bg-green-50 text-green-800 border border-green-200">
-                ⚡ Staff sees recommendation + probability → faster, more
-                consistent lending
+                ⚡ Kakitangan melihat cadangan + kebarangkalian → pinjaman yang
+                lebih pantas dan konsisten
               </div>
             </div>
           </div>
