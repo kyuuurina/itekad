@@ -1,4 +1,3 @@
-import React from 'react';
 
 interface FinancialProfileProps {
   name: string;
@@ -35,7 +34,6 @@ export default function FinancialProfile({
   name,
   ic,
   ekyc,
-  docs,
   docsScore,
   decision,
   ccris,
