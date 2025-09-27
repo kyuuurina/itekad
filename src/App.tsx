@@ -8,10 +8,17 @@ export default function ItekadMobileApp() {
   useEffect(() => {
     // Check if URL contains /admin to determine if we should show admin interface
     const pathname = window.location.pathname;
+    const search = window.location.search;
+    
+    console.log('Pathname:', pathname);
+    console.log('Search:', search);
+    
     if (
       pathname.includes("/admin") ||
-      window.location.search.includes("admin=true")
+      pathname === "/admin" ||
+      search.includes("admin=true")
     ) {
+      console.log('Setting admin mode to true');
       setIsAdminMode(true);
     }
   }, []);
