@@ -1,4 +1,5 @@
 import { useState } from "react";
+import ProfileTab from "./ProfileTab";
 
 // Sample customer data
 const mockCustomerDetails = {
@@ -32,22 +33,67 @@ const mockCustomerDetails = {
     guarantor: "Siti Aminah binti Hassan (Isteri)",
     financialRecords: {
       monthlyData: [
-        { month: 'Jan', income: 4200, expenses: 2600, profit: 1600, zakat: 84, savings: 500 },
-        { month: 'Feb', income: 4800, expenses: 2900, profit: 1900, zakat: 95, savings: 600 },
-        { month: 'Mar', income: 4100, expenses: 2500, profit: 1600, zakat: 82, savings: 480 },
-        { month: 'Apr', income: 5200, expenses: 3100, profit: 2100, zakat: 104, savings: 700 },
-        { month: 'May', income: 4900, expenses: 2850, profit: 2050, zakat: 98, savings: 650 },
-        { month: 'Jun', income: 4600, expenses: 2700, profit: 1900, zakat: 92, savings: 580 }
+        {
+          month: "Jan",
+          income: 4200,
+          expenses: 2600,
+          profit: 1600,
+          zakat: 84,
+          savings: 500,
+        },
+        {
+          month: "Feb",
+          income: 4800,
+          expenses: 2900,
+          profit: 1900,
+          zakat: 95,
+          savings: 600,
+        },
+        {
+          month: "Mar",
+          income: 4100,
+          expenses: 2500,
+          profit: 1600,
+          zakat: 82,
+          savings: 480,
+        },
+        {
+          month: "Apr",
+          income: 5200,
+          expenses: 3100,
+          profit: 2100,
+          zakat: 104,
+          savings: 700,
+        },
+        {
+          month: "May",
+          income: 4900,
+          expenses: 2850,
+          profit: 2050,
+          zakat: 98,
+          savings: 650,
+        },
+        {
+          month: "Jun",
+          income: 4600,
+          expenses: 2700,
+          profit: 1900,
+          zakat: 92,
+          savings: 580,
+        },
       ],
       yearlyTrend: "Meningkat 15% berbanding tahun lepas",
       peakSeason: "Ramadan & Hari Raya",
-      challenges: "Kos bahan mentah naik 8%"
+      challenges: "Kos bahan mentah naik 8%",
     },
     aiSummary: {
-      family: "Berkahwin dengan 2 orang anak (umur 8 dan 12 tahun). Isteri bekerja sebagai cikgu di sekolah rendah berdekatan. Keluarga tinggal di rumah teres 2 tingkat yang telah dimiliki selama 5 tahun. Anak-anak bersekolah di sekolah kerajaan berdekatan.",
-      personal: "Ahmad berumur 37 tahun, mempunyai pengalaman 18 bulan dalam perniagaan makanan. Sebelum ini bekerja sebagai chef di restoran selama 10 tahun. Rajin dan komited, membuka kedai dari 6 pagi hingga 10 malam. Mempunyai pelanggan tetap dan reputasi baik dalam komuniti.",
-      financialBehavior: "Disiplin dalam pengurusan kewangan, selalu bayar bil tepat masa. Mempunyai akaun simpanan dan pelaburan ASB. Tidak mempunyai hutang kad kredit. Rajin menyimpan untuk pendidikan anak-anak dan haji."
-    }
+      family:
+        "Berkahwin dengan 2 orang anak (umur 8 dan 12 tahun). Isteri bekerja sebagai cikgu di sekolah rendah berdekatan. Keluarga tinggal di rumah teres 2 tingkat yang telah dimiliki selama 5 tahun. Anak-anak bersekolah di sekolah kerajaan berdekatan.",
+      personal:
+        "Ahmad berumur 37 tahun, mempunyai pengalaman 18 bulan dalam perniagaan makanan. Sebelum ini bekerja sebagai chef di restoran selama 10 tahun. Rajin dan komited, membuka kedai dari 6 pagi hingga 10 malam. Mempunyai pelanggan tetap dan reputasi baik dalam komuniti.",
+      financialBehavior:
+        "Disiplin dalam pengurusan kewangan, selalu bayar bil tepat masa. Mempunyai akaun simpanan dan pelaburan ASB. Tidak mempunyai hutang kad kredit. Rajin menyimpan untuk pendidikan anak-anak dan haji.",
+    },
   },
 };
 
@@ -57,8 +103,9 @@ interface CustomerDetailProps {
 }
 
 const CustomerDetail = ({ customerId, onBack }: CustomerDetailProps) => {
-  const [activeTab, setActiveTab] = useState('overview');
-  const customer = mockCustomerDetails[customerId as keyof typeof mockCustomerDetails];
+  const [activeTab, setActiveTab] = useState("overview");
+  const customer =
+    mockCustomerDetails[customerId as keyof typeof mockCustomerDetails];
 
   if (!customer) {
     return (
@@ -83,39 +130,55 @@ const CustomerDetail = ({ customerId, onBack }: CustomerDetailProps) => {
   }
 
   const calculateTotalSavings = () => {
-    return customer.financialRecords.monthlyData.reduce((total, month) => total + month.savings, 0);
+    return customer.financialRecords.monthlyData.reduce(
+      (total, month) => total + month.savings,
+      0
+    );
   };
 
   const calculateTotalZakat = () => {
-    return customer.financialRecords.monthlyData.reduce((total, month) => total + month.zakat, 0);
+    return customer.financialRecords.monthlyData.reduce(
+      (total, month) => total + month.zakat,
+      0
+    );
   };
 
   const averageMonthlyProfit = () => {
-    const total = customer.financialRecords.monthlyData.reduce((total, month) => total + month.profit, 0);
+    const total = customer.financialRecords.monthlyData.reduce(
+      (total, month) => total + month.profit,
+      0
+    );
     return total / customer.financialRecords.monthlyData.length;
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="text-white shadow-lg" style={{ backgroundColor: '#A2010E' }}>
+      <header
+        className="text-white shadow-lg"
+        style={{ backgroundColor: "#A2010E" }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center">
-          <button
-            onClick={onBack}
+              <button
+                onClick={onBack}
                 className="text-white mr-4 hover:text-gray-200"
-          >
+              >
                 ← Kembali
-          </button>
+              </button>
               <div>
                 <h1 className="text-xl font-bold">Profil Pelanggan</h1>
-                <p className="text-sm opacity-90">Bank Islam Malaysia - iTEKAD</p>
+                <p className="text-sm opacity-90">
+                  Bank Islam Malaysia - iTEKAD
+                </p>
               </div>
             </div>
             <div className="text-right">
               <div className="text-sm">ID: {customer.id}</div>
-              <div className="text-xs opacity-75">{new Date().toLocaleDateString('ms-MY')}</div>
+              <div className="text-xs opacity-75">
+                {new Date().toLocaleDateString("ms-MY")}
+              </div>
             </div>
           </div>
         </div>
@@ -132,31 +195,47 @@ const CustomerDetail = ({ customerId, onBack }: CustomerDetailProps) => {
                 </span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">{customer.name}</h1>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {customer.name}
+                </h1>
                 <p className="text-gray-600">{customer.businessName}</p>
-                <p className="text-sm text-gray-500">{customer.ic} • {customer.phone}</p>
+                <p className="text-sm text-gray-500">
+                  {customer.ic} • {customer.phone}
+                </p>
               </div>
-                </div>
+            </div>
             <div className="mt-4 lg:mt-0 flex flex-col lg:items-end space-y-2">
-              <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-                customer.status === 'approved' ? 'bg-green-100 text-green-800' :
-                customer.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                'bg-red-100 text-red-800'
-              }`}>
-                {customer.status === 'approved' ? 'Diluluskan' :
-                 customer.status === 'pending' ? 'Dalam Semakan' : 'Ditolak'}
+              <div
+                className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  customer.status === "approved"
+                    ? "bg-green-100 text-green-800"
+                    : customer.status === "pending"
+                    ? "bg-yellow-100 text-yellow-800"
+                    : "bg-red-100 text-red-800"
+                }`}
+              >
+                {customer.status === "approved"
+                  ? "Diluluskan"
+                  : customer.status === "pending"
+                  ? "Dalam Semakan"
+                  : "Ditolak"}
               </div>
               <div className="text-right">
                 <div className="text-sm text-gray-500">Skor Kredit</div>
-                <div className={`text-2xl font-bold ${
-                  customer.creditScore >= 700 ? 'text-green-600' : 
-                  customer.creditScore >= 600 ? 'text-yellow-600' : 'text-red-600'
-                }`}>
+                <div
+                  className={`text-2xl font-bold ${
+                    customer.creditScore >= 700
+                      ? "text-green-600"
+                      : customer.creditScore >= 600
+                      ? "text-yellow-600"
+                      : "text-red-600"
+                  }`}
+                >
                   {customer.creditScore}
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
         </div>
 
         {/* Navigation Tabs */}
@@ -164,71 +243,87 @@ const CustomerDetail = ({ customerId, onBack }: CustomerDetailProps) => {
           <div className="border-b border-gray-200">
             <nav className="flex space-x-8 px-6">
               {[
-                { id: 'overview', label: 'Ringkasan', icon: '📊' },
-                { id: 'business', label: 'Perniagaan', icon: '🏪' },
-                { id: 'financial', label: 'Kewangan', icon: '💰' },
-                { id: 'personal', label: 'Peribadi', icon: '👤' }
+                { id: "overview", label: "Ringkasan", icon: "📊" },
+                { id: "business", label: "Perniagaan", icon: "🏪" },
+                { id: "financial", label: "Kewangan", icon: "💰" },
+                { id: "personal", label: "Peribadi", icon: "👤" },
+                { id: "profil", label: "Profil", icon: "📋" },
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`py-4 px-2 border-b-2 font-medium text-sm ${
                     activeTab === tab.id
-                      ? 'border-red-600 text-red-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                      ? "border-red-600 text-red-600"
+                      : "border-transparent text-gray-500 hover:text-gray-700"
                   }`}
                 >
                   {tab.icon} {tab.label}
                 </button>
               ))}
             </nav>
-      </div>
+          </div>
 
-      <div className="p-6">
-            {activeTab === 'overview' && (
-              <OverviewTab 
+          <div className="p-6">
+            {activeTab === "overview" && (
+              <OverviewTab
                 customer={customer}
                 totalSavings={calculateTotalSavings()}
                 totalZakat={calculateTotalZakat()}
                 avgProfit={averageMonthlyProfit()}
               />
             )}
-            {activeTab === 'business' && <BusinessTab customer={customer} />}
-            {activeTab === 'financial' && <FinancialTab customer={customer} />}
-            {activeTab === 'personal' && <PersonalTab customer={customer} />}
-                </div>
+            {activeTab === "business" && <BusinessTab customer={customer} />}
+            {activeTab === "financial" && <FinancialTab customer={customer} />}
+            {activeTab === "personal" && <PersonalTab customer={customer} />}
+            {activeTab === "profil" && (
+              <div className="bg-white rounded-lg border border-gray-200 p-4">
+                <ProfileTab />
               </div>
-                </div>
-              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 
-function OverviewTab({ customer, totalSavings, totalZakat, avgProfit }: { customer: any, totalSavings: number, totalZakat: number, avgProfit: number }) {
+function OverviewTab({
+  customer,
+  totalSavings,
+  totalZakat,
+  avgProfit,
+}: {
+  customer: any;
+  totalSavings: number;
+  totalZakat: number;
+  avgProfit: number;
+}) {
   const keyMetrics = [
     {
       title: "Pendapatan Bulanan",
       value: `RM ${customer.monthlyIncome.toLocaleString()}`,
       icon: "💵",
-      color: "green"
+      color: "green",
     },
     {
       title: "Purata Keuntungan",
       value: `RM ${Math.round(avgProfit).toLocaleString()}`,
       icon: "📈",
-      color: "blue"
+      color: "blue",
     },
     {
       title: "Jumlah Simpanan (6 bulan)",
       value: `RM ${totalSavings.toLocaleString()}`,
       icon: "🏦",
-      color: "green"
+      color: "green",
     },
     {
       title: "Jumlah Zakat (6 bulan)",
       value: `RM ${totalZakat.toLocaleString()}`,
       icon: "🕌",
-      color: "purple"
-    }
+      color: "purple",
+    },
   ];
 
   return (
@@ -238,9 +333,11 @@ function OverviewTab({ customer, totalSavings, totalZakat, avgProfit }: { custom
         {keyMetrics.map((metric, index) => (
           <div key={index} className="bg-gray-50 rounded-lg p-4">
             <div className="flex items-center justify-between">
-                <div>
+              <div>
                 <p className="text-sm text-gray-600">{metric.title}</p>
-                <p className="text-xl font-bold text-gray-900">{metric.value}</p>
+                <p className="text-xl font-bold text-gray-900">
+                  {metric.value}
+                </p>
               </div>
               <div className="text-2xl">{metric.icon}</div>
             </div>
@@ -249,84 +346,113 @@ function OverviewTab({ customer, totalSavings, totalZakat, avgProfit }: { custom
       </div>
 
       {/* Quick Stats */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="font-bold text-gray-800 mb-4">Maklumat Pembiayaan</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between">
+          <div className="space-y-3">
+            <div className="flex justify-between">
               <span className="text-gray-600">Jumlah Pembiayaan:</span>
-              <span className="font-medium">RM {customer.loanAmount.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
+              <span className="font-medium">
+                RM {customer.loanAmount.toLocaleString()}
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Status:</span>
-              <span className={`font-medium ${
-                customer.status === 'approved' ? 'text-green-600' : 
-                customer.status === 'pending' ? 'text-yellow-600' : 'text-red-600'
-              }`}>
-                {customer.status === 'approved' ? 'Diluluskan' :
-                 customer.status === 'pending' ? 'Dalam Semakan' : 'Ditolak'}
-                  </span>
-                </div>
+              <span
+                className={`font-medium ${
+                  customer.status === "approved"
+                    ? "text-green-600"
+                    : customer.status === "pending"
+                    ? "text-yellow-600"
+                    : "text-red-600"
+                }`}
+              >
+                {customer.status === "approved"
+                  ? "Diluluskan"
+                  : customer.status === "pending"
+                  ? "Dalam Semakan"
+                  : "Ditolak"}
+              </span>
+            </div>
             {customer.disbursementDate && (
-                <div className="flex justify-between">
+              <div className="flex justify-between">
                 <span className="text-gray-600">Tarikh Salur:</span>
                 <span className="font-medium">{customer.disbursementDate}</span>
               </div>
             )}
-                <div className="flex justify-between">
+            <div className="flex justify-between">
               <span className="text-gray-600">Sejarah Bayaran:</span>
-              <span className="font-medium text-green-600">{customer.repaymentHistory}%</span>
-                </div>
-              </div>
+              <span className="font-medium text-green-600">
+                {customer.repaymentHistory}%
+              </span>
             </div>
+          </div>
+        </div>
 
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="font-bold text-gray-800 mb-4">Profil Risiko</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
+          <div className="space-y-3">
+            <div className="flex justify-between">
               <span className="text-gray-600">Skor Kredit:</span>
-              <span className={`font-medium ${
-                customer.creditScore >= 700 ? 'text-green-600' : 
-                customer.creditScore >= 600 ? 'text-yellow-600' : 'text-red-600'
-              }`}>
+              <span
+                className={`font-medium ${
+                  customer.creditScore >= 700
+                    ? "text-green-600"
+                    : customer.creditScore >= 600
+                    ? "text-yellow-600"
+                    : "text-red-600"
+                }`}
+              >
                 {customer.creditScore}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Sejarah Banking:</span>
-              <span className="font-medium">{customer.bankingHistory} tahun</span>
-                  </div>
-                  <div className="flex justify-between">
+              <span className="font-medium">
+                {customer.bankingHistory} tahun
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Pinjaman Terdahulu:</span>
               <span className="font-medium">{customer.previousLoans}</span>
-                  </div>
-                  <div className="flex justify-between">
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Penjamin:</span>
               <span className="font-medium text-sm">{customer.guarantor}</span>
-                  </div>
-                </div>
-                        </div>
-                      </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* AI Summary */}
       <div className="bg-blue-50 rounded-lg p-6">
         <h3 className="font-bold text-gray-800 mb-4">🤖 Ringkasan AI</h3>
-              <div className="space-y-4">
-                <div>
-            <h4 className="font-medium text-gray-700 mb-2">Analisis Keluarga:</h4>
-            <p className="text-gray-600 text-sm leading-relaxed">{customer.aiSummary.family}</p>
-                      </div>
-                    <div>
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-medium text-gray-700 mb-2">
+              Analisis Keluarga:
+            </h4>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              {customer.aiSummary.family}
+            </p>
+          </div>
+          <div>
             <h4 className="font-medium text-gray-700 mb-2">Profil Peribadi:</h4>
-            <p className="text-gray-600 text-sm leading-relaxed">{customer.aiSummary.personal}</p>
-                    </div>
-                    <div>
-            <h4 className="font-medium text-gray-700 mb-2">Tingkah Laku Kewangan:</h4>
-            <p className="text-gray-600 text-sm leading-relaxed">{customer.aiSummary.financialBehavior}</p>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              {customer.aiSummary.personal}
+            </p>
           </div>
-                </div>
-            </div>
+          <div>
+            <h4 className="font-medium text-gray-700 mb-2">
+              Tingkah Laku Kewangan:
+            </h4>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              {customer.aiSummary.financialBehavior}
+            </p>
           </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -334,11 +460,11 @@ function BusinessTab({ customer }: { customer: any }) {
   return (
     <div className="space-y-6">
       {/* Business Overview */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="font-bold text-gray-800 mb-4">Maklumat Perniagaan</h3>
-              <div className="space-y-3">
-                <div className="flex justify-between">
+          <div className="space-y-3">
+            <div className="flex justify-between">
               <span className="text-gray-600">Nama Perniagaan:</span>
               <span className="font-medium">{customer.businessName}</span>
             </div>
@@ -348,15 +474,19 @@ function BusinessTab({ customer }: { customer: any }) {
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Alamat:</span>
-              <span className="font-medium text-sm">{customer.businessAddress}</span>
-                </div>
-                <div className="flex justify-between">
+              <span className="font-medium text-sm">
+                {customer.businessAddress}
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Umur Perniagaan:</span>
               <span className="font-medium">{customer.businessAge} bulan</span>
-                </div>
-                <div className="flex justify-between">
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Bilangan Pekerja:</span>
-              <span className="font-medium">{customer.employeeCount} orang</span>
+              <span className="font-medium">
+                {customer.employeeCount} orang
+              </span>
             </div>
           </div>
         </div>
@@ -366,22 +496,34 @@ function BusinessTab({ customer }: { customer: any }) {
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className="text-gray-600">Pendapatan Bulanan:</span>
-              <span className="font-medium text-green-600">RM {customer.monthlyIncome.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
+              <span className="font-medium text-green-600">
+                RM {customer.monthlyIncome.toLocaleString()}
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Perbelanjaan Bulanan:</span>
-              <span className="font-medium text-red-600">RM {customer.monthlyExpenses.toLocaleString()}</span>
-                </div>
-                <div className="flex justify-between">
+              <span className="font-medium text-red-600">
+                RM {customer.monthlyExpenses.toLocaleString()}
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Keuntungan Bersih:</span>
               <span className="font-medium text-blue-600">
-                RM {(customer.monthlyIncome - customer.monthlyExpenses).toLocaleString()}
-                  </span>
-                </div>
-                <div className="flex justify-between">
+                RM{" "}
+                {(
+                  customer.monthlyIncome - customer.monthlyExpenses
+                ).toLocaleString()}
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Margin Keuntungan:</span>
               <span className="font-medium">
-                {(((customer.monthlyIncome - customer.monthlyExpenses) / customer.monthlyIncome) * 100).toFixed(1)}%
+                {(
+                  ((customer.monthlyIncome - customer.monthlyExpenses) /
+                    customer.monthlyIncome) *
+                  100
+                ).toFixed(1)}
+                %
               </span>
             </div>
           </div>
@@ -394,55 +536,86 @@ function BusinessTab({ customer }: { customer: any }) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <h4 className="font-medium text-gray-700 mb-2">Trend Tahunan:</h4>
-            <p className="text-sm text-gray-600">{customer.financialRecords.yearlyTrend}</p>
+            <p className="text-sm text-gray-600">
+              {customer.financialRecords.yearlyTrend}
+            </p>
           </div>
           <div>
             <h4 className="font-medium text-gray-700 mb-2">Musim Puncak:</h4>
-            <p className="text-sm text-gray-600">{customer.financialRecords.peakSeason}</p>
+            <p className="text-sm text-gray-600">
+              {customer.financialRecords.peakSeason}
+            </p>
           </div>
           <div>
             <h4 className="font-medium text-gray-700 mb-2">Cabaran:</h4>
-            <p className="text-sm text-gray-600">{customer.financialRecords.challenges}</p>
+            <p className="text-sm text-gray-600">
+              {customer.financialRecords.challenges}
+            </p>
           </div>
         </div>
       </div>
 
       {/* Monthly Performance */}
       <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <h3 className="font-bold text-gray-800 mb-4">Prestasi Bulanan (6 Bulan Terkini)</h3>
+        <h3 className="font-bold text-gray-800 mb-4">
+          Prestasi Bulanan (6 Bulan Terkini)
+        </h3>
         <div className="space-y-4">
-          {customer.financialRecords.monthlyData.map((month: any, index: number) => (
-            <div key={index} className="border border-gray-200 rounded-lg p-4">
-              <div className="flex justify-between items-center mb-3">
-                <h4 className="font-medium text-gray-800">{month.month}</h4>
-                <div className="text-sm text-gray-600">
-                  Keuntungan: <span className="font-medium text-green-600">RM {month.profit.toLocaleString()}</span>
+          {customer.financialRecords.monthlyData.map(
+            (month: any, index: number) => (
+              <div
+                key={index}
+                className="border border-gray-200 rounded-lg p-4"
+              >
+                <div className="flex justify-between items-center mb-3">
+                  <h4 className="font-medium text-gray-800">{month.month}</h4>
+                  <div className="text-sm text-gray-600">
+                    Keuntungan:{" "}
+                    <span className="font-medium text-green-600">
+                      RM {month.profit.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
+                  <div>
+                    <div className="text-gray-600">Pendapatan</div>
+                    <div className="font-medium text-green-600">
+                      RM {month.income.toLocaleString()}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-600">Perbelanjaan</div>
+                    <div className="font-medium text-red-600">
+                      RM {month.expenses.toLocaleString()}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-600">Zakat</div>
+                    <div className="font-medium text-purple-600">
+                      RM {month.zakat}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-600">Simpanan</div>
+                    <div className="font-medium text-blue-600">
+                      RM {month.savings}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-gray-600">Baki</div>
+                    <div className="font-medium">
+                      RM{" "}
+                      {(
+                        month.profit -
+                        month.zakat -
+                        month.savings
+                      ).toLocaleString()}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
-                <div>
-                  <div className="text-gray-600">Pendapatan</div>
-                  <div className="font-medium text-green-600">RM {month.income.toLocaleString()}</div>
-                </div>
-                <div>
-                  <div className="text-gray-600">Perbelanjaan</div>
-                  <div className="font-medium text-red-600">RM {month.expenses.toLocaleString()}</div>
-                </div>
-                <div>
-                  <div className="text-gray-600">Zakat</div>
-                  <div className="font-medium text-purple-600">RM {month.zakat}</div>
-                </div>
-                <div>
-                  <div className="text-gray-600">Simpanan</div>
-                  <div className="font-medium text-blue-600">RM {month.savings}</div>
-                </div>
-                <div>
-                  <div className="text-gray-600">Baki</div>
-                  <div className="font-medium">RM {(month.profit - month.zakat - month.savings).toLocaleString()}</div>
-                </div>
-              </div>
-            </div>
-          ))}
+            )
+          )}
         </div>
       </div>
     </div>
@@ -450,22 +623,62 @@ function BusinessTab({ customer }: { customer: any }) {
 }
 
 function FinancialTab({ customer }: { customer: any }) {
-  const totalIncome = customer.financialRecords.monthlyData.reduce((sum: number, month: any) => sum + month.income, 0);
-  const totalExpenses = customer.financialRecords.monthlyData.reduce((sum: number, month: any) => sum + month.expenses, 0);
-  const totalProfit = customer.financialRecords.monthlyData.reduce((sum: number, month: any) => sum + month.profit, 0);
-  const totalZakat = customer.financialRecords.monthlyData.reduce((sum: number, month: any) => sum + month.zakat, 0);
-  const totalSavings = customer.financialRecords.monthlyData.reduce((sum: number, month: any) => sum + month.savings, 0);
+  const totalIncome = customer.financialRecords.monthlyData.reduce(
+    (sum: number, month: any) => sum + month.income,
+    0
+  );
+  const totalExpenses = customer.financialRecords.monthlyData.reduce(
+    (sum: number, month: any) => sum + month.expenses,
+    0
+  );
+  const totalProfit = customer.financialRecords.monthlyData.reduce(
+    (sum: number, month: any) => sum + month.profit,
+    0
+  );
+  const totalZakat = customer.financialRecords.monthlyData.reduce(
+    (sum: number, month: any) => sum + month.zakat,
+    0
+  );
+  const totalSavings = customer.financialRecords.monthlyData.reduce(
+    (sum: number, month: any) => sum + month.savings,
+    0
+  );
 
   return (
     <div className="space-y-6">
       {/* Financial Summary */}
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {[
-          { title: "Jumlah Pendapatan", value: totalIncome, color: "text-green-600", icon: "💰" },
-          { title: "Jumlah Perbelanjaan", value: totalExpenses, color: "text-red-600", icon: "💸" },
-          { title: "Jumlah Keuntungan", value: totalProfit, color: "text-blue-600", icon: "📈" },
-          { title: "Jumlah Zakat", value: totalZakat, color: "text-purple-600", icon: "🕌" },
-          { title: "Jumlah Simpanan", value: totalSavings, color: "text-teal-600", icon: "🏦" }
+          {
+            title: "Jumlah Pendapatan",
+            value: totalIncome,
+            color: "text-green-600",
+            icon: "💰",
+          },
+          {
+            title: "Jumlah Perbelanjaan",
+            value: totalExpenses,
+            color: "text-red-600",
+            icon: "💸",
+          },
+          {
+            title: "Jumlah Keuntungan",
+            value: totalProfit,
+            color: "text-blue-600",
+            icon: "📈",
+          },
+          {
+            title: "Jumlah Zakat",
+            value: totalZakat,
+            color: "text-purple-600",
+            icon: "🕌",
+          },
+          {
+            title: "Jumlah Simpanan",
+            value: totalSavings,
+            color: "text-teal-600",
+            icon: "🏦",
+          },
         ].map((item, index) => (
           <div key={index} className="bg-gray-50 rounded-lg p-4">
             <div className="flex items-center justify-between mb-2">
@@ -478,38 +691,46 @@ function FinancialTab({ customer }: { customer: any }) {
             <div className="text-xs text-gray-500">(6 bulan)</div>
           </div>
         ))}
-                </div>
+      </div>
 
       {/* Income vs Expenses Chart */}
       <div className="bg-white rounded-lg border border-gray-200 p-6">
-        <h3 className="font-bold text-gray-800 mb-4">Perbandingan Pendapatan vs Perbelanjaan</h3>
+        <h3 className="font-bold text-gray-800 mb-4">
+          Perbandingan Pendapatan vs Perbelanjaan
+        </h3>
         <div className="space-y-4">
-          {customer.financialRecords.monthlyData.map((month: any, index: number) => (
-            <div key={index} className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="font-medium">{month.month}</span>
-                <span className="text-gray-600">
-                  Margin: {((month.profit / month.income) * 100).toFixed(1)}%
+          {customer.financialRecords.monthlyData.map(
+            (month: any, index: number) => (
+              <div key={index} className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="font-medium">{month.month}</span>
+                  <span className="text-gray-600">
+                    Margin: {((month.profit / month.income) * 100).toFixed(1)}%
                   </span>
                 </div>
-              <div className="relative">
-                <div className="flex h-8 bg-gray-200 rounded-lg overflow-hidden">
-                  <div 
-                    className="bg-green-500 flex items-center justify-center text-white text-xs font-medium"
-                    style={{ width: `${(month.income / 8000) * 100}%` }}
-                  >
-                    {month.income >= 1000 ? `${(month.income/1000).toFixed(1)}k` : month.income}
-                </div>
-                  <div 
-                    className="bg-red-500 flex items-center justify-center text-white text-xs font-medium"
-                    style={{ width: `${(month.expenses / 8000) * 100}%` }}
-                  >
-                    {month.expenses >= 1000 ? `${(month.expenses/1000).toFixed(1)}k` : month.expenses}
-                </div>
+                <div className="relative">
+                  <div className="flex h-8 bg-gray-200 rounded-lg overflow-hidden">
+                    <div
+                      className="bg-green-500 flex items-center justify-center text-white text-xs font-medium"
+                      style={{ width: `${(month.income / 8000) * 100}%` }}
+                    >
+                      {month.income >= 1000
+                        ? `${(month.income / 1000).toFixed(1)}k`
+                        : month.income}
+                    </div>
+                    <div
+                      className="bg-red-500 flex items-center justify-center text-white text-xs font-medium"
+                      style={{ width: `${(month.expenses / 8000) * 100}%` }}
+                    >
+                      {month.expenses >= 1000
+                        ? `${(month.expenses / 1000).toFixed(1)}k`
+                        : month.expenses}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            )
+          )}
         </div>
         <div className="mt-4 flex justify-center space-x-6 text-sm">
           <div className="flex items-center">
@@ -532,17 +753,23 @@ function FinancialTab({ customer }: { customer: any }) {
               <span className="text-gray-600">Jumlah Zakat (6 bulan):</span>
               <span className="font-bold text-purple-600">RM {totalZakat}</span>
             </div>
-                <div className="flex justify-between">
+            <div className="flex justify-between">
               <span className="text-gray-600">Purata Bulanan:</span>
-              <span className="font-medium">RM {Math.round(totalZakat / 6)}</span>
-                </div>
-                <div className="flex justify-between">
+              <span className="font-medium">
+                RM {Math.round(totalZakat / 6)}
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">% daripada Keuntungan:</span>
-              <span className="font-medium">{((totalZakat / totalProfit) * 100).toFixed(1)}%</span>
+              <span className="font-medium">
+                {((totalZakat / totalProfit) * 100).toFixed(1)}%
+              </span>
             </div>
             <div className="mt-4 p-3 bg-purple-100 rounded-lg">
               <div className="text-sm text-purple-800">
-                <strong>Analisis:</strong> Pelanggan konsisten membayar zakat, menunjukkan komitmen terhadap kewajipan agama dan disiplin kewangan yang baik.
+                <strong>Analisis:</strong> Pelanggan konsisten membayar zakat,
+                menunjukkan komitmen terhadap kewajipan agama dan disiplin
+                kewangan yang baik.
               </div>
             </div>
           </div>
@@ -554,18 +781,24 @@ function FinancialTab({ customer }: { customer: any }) {
             <div className="flex justify-between">
               <span className="text-gray-600">Jumlah Simpanan (6 bulan):</span>
               <span className="font-bold text-teal-600">RM {totalSavings}</span>
-                </div>
-                <div className="flex justify-between">
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Purata Bulanan:</span>
-              <span className="font-medium">RM {Math.round(totalSavings / 6)}</span>
-                </div>
-                <div className="flex justify-between">
+              <span className="font-medium">
+                RM {Math.round(totalSavings / 6)}
+              </span>
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">% daripada Keuntungan:</span>
-              <span className="font-medium">{((totalSavings / totalProfit) * 100).toFixed(1)}%</span>
-                </div>
+              <span className="font-medium">
+                {((totalSavings / totalProfit) * 100).toFixed(1)}%
+              </span>
+            </div>
             <div className="mt-4 p-3 bg-teal-100 rounded-lg">
               <div className="text-sm text-teal-800">
-                <strong>Analisis:</strong> Kadar simpanan yang sihat menunjukkan kemampuan menguruskan kewangan dan potensi untuk menampung bayaran balik pinjaman.
+                <strong>Analisis:</strong> Kadar simpanan yang sihat menunjukkan
+                kemampuan menguruskan kewangan dan potensi untuk menampung
+                bayaran balik pinjaman.
               </div>
             </div>
           </div>
@@ -574,27 +807,38 @@ function FinancialTab({ customer }: { customer: any }) {
 
       {/* Financial Health Score */}
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6">
-        <h3 className="font-bold text-gray-800 mb-4">🎯 Skor Kesihatan Kewangan</h3>
+        <h3 className="font-bold text-gray-800 mb-4">
+          🎯 Skor Kesihatan Kewangan
+        </h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center">
             <div className="text-3xl font-bold text-blue-600 mb-1">85</div>
             <div className="text-sm text-gray-600">Pengurusan Aliran Tunai</div>
             <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-              <div className="bg-blue-600 h-2 rounded-full" style={{width: '85%'}}></div>
+              <div
+                className="bg-blue-600 h-2 rounded-full"
+                style={{ width: "85%" }}
+              ></div>
             </div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-green-600 mb-1">78</div>
             <div className="text-sm text-gray-600">Kestabilan Pendapatan</div>
             <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-              <div className="bg-green-600 h-2 rounded-full" style={{width: '78%'}}></div>
+              <div
+                className="bg-green-600 h-2 rounded-full"
+                style={{ width: "78%" }}
+              ></div>
             </div>
           </div>
           <div className="text-center">
             <div className="text-3xl font-bold text-purple-600 mb-1">92</div>
             <div className="text-sm text-gray-600">Disiplin Simpanan</div>
             <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-              <div className="bg-purple-600 h-2 rounded-full" style={{width: '92%'}}></div>
+              <div
+                className="bg-purple-600 h-2 rounded-full"
+                style={{ width: "92%" }}
+              ></div>
             </div>
           </div>
         </div>
@@ -605,59 +849,59 @@ function FinancialTab({ customer }: { customer: any }) {
 
 function PersonalTab({ customer }: { customer: any }) {
   return (
-          <div className="space-y-6">
+    <div className="space-y-6">
       {/* Personal Information */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="font-bold text-gray-800 mb-4">👤 Maklumat Peribadi</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
+          <div className="space-y-3">
+            <div className="flex justify-between">
               <span className="text-gray-600">Nama Penuh:</span>
               <span className="font-medium">{customer.name}</span>
-                  </div>
-                  <div className="flex justify-between">
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">No. MyKad:</span>
               <span className="font-medium">{customer.ic}</span>
-                  </div>
-                  <div className="flex justify-between">
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Telefon:</span>
               <span className="font-medium">{customer.phone}</span>
-                  </div>
-                  <div className="flex justify-between">
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Email:</span>
               <span className="font-medium text-sm">{customer.email}</span>
-                  </div>
-                  <div className="flex justify-between">
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Status Perkahwinan:</span>
               <span className="font-medium">{customer.maritalStatus}</span>
-                  </div>
-                  <div className="flex justify-between">
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Tahap Pendidikan:</span>
               <span className="font-medium">{customer.education}</span>
             </div>
-                  </div>
-                </div>
+          </div>
+        </div>
 
         <div className="bg-gray-50 rounded-lg p-6">
           <h3 className="font-bold text-gray-800 mb-4">👨‍👩‍👧‍👦 Maklumat Keluarga</h3>
-                <div className="space-y-3">
-                  <div className="flex justify-between">
+          <div className="space-y-3">
+            <div className="flex justify-between">
               <span className="text-gray-600">Saiz Keluarga:</span>
               <span className="font-medium">{customer.familySize} orang</span>
             </div>
             <div className="flex justify-between">
               <span className="text-gray-600">Tanggungan:</span>
               <span className="font-medium">{customer.dependents} orang</span>
-                  </div>
-                  <div className="flex justify-between">
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Lokasi:</span>
               <span className="font-medium">{customer.location}</span>
-                  </div>
-                  <div className="flex justify-between">
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Penjamin:</span>
               <span className="font-medium text-sm">{customer.guarantor}</span>
-                  </div>
-                  <div className="flex justify-between">
+            </div>
+            <div className="flex justify-between">
               <span className="text-gray-600">Cagaran:</span>
               <span className="font-medium">{customer.collateral}</span>
             </div>
@@ -670,44 +914,62 @@ function PersonalTab({ customer }: { customer: any }) {
         <h3 className="font-bold text-gray-800 mb-4">🏦 Sejarah Perbankan</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600 mb-1">{customer.bankingHistory}</div>
+            <div className="text-2xl font-bold text-blue-600 mb-1">
+              {customer.bankingHistory}
+            </div>
             <div className="text-sm text-gray-600">Tahun Hubungan Banking</div>
           </div>
           <div className="text-center p-4 bg-green-50 rounded-lg">
-            <div className="text-2xl font-bold text-green-600 mb-1">{customer.previousLoans}</div>
+            <div className="text-2xl font-bold text-green-600 mb-1">
+              {customer.previousLoans}
+            </div>
             <div className="text-sm text-gray-600">Pinjaman Terdahulu</div>
           </div>
           <div className="text-center p-4 bg-purple-50 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600 mb-1">{customer.repaymentHistory}%</div>
+            <div className="text-2xl font-bold text-purple-600 mb-1">
+              {customer.repaymentHistory}%
+            </div>
             <div className="text-sm text-gray-600">Rekod Bayaran Balik</div>
           </div>
-                  </div>
-                </div>
+        </div>
+      </div>
 
       {/* AI Analysis */}
       <div className="space-y-4">
-        <h3 className="text-xl font-bold text-gray-800">🤖 Analisis Mendalam AI</h3>
-        
+        <h3 className="text-xl font-bold text-gray-800">
+          🤖 Analisis Mendalam AI
+        </h3>
+
         {/* Family Analysis */}
         <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg p-6">
-          <h4 className="font-bold text-green-800 mb-3">👨‍👩‍👧‍👦 Analisis Keluarga</h4>
-          <p className="text-gray-700 leading-relaxed mb-4">{customer.aiSummary.family}</p>
-          
+          <h4 className="font-bold text-green-800 mb-3">
+            👨‍👩‍👧‍👦 Analisis Keluarga
+          </h4>
+          <p className="text-gray-700 leading-relaxed mb-4">
+            {customer.aiSummary.family}
+          </p>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-gray-600">Kestabilan Keluarga</div>
               <div className="text-lg font-bold text-green-600">Tinggi</div>
-              <div className="text-xs text-gray-500">Keluarga yang stabil dengan komitmen jangka panjang</div>
+              <div className="text-xs text-gray-500">
+                Keluarga yang stabil dengan komitmen jangka panjang
+              </div>
             </div>
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-gray-600">Sokongan Kewangan</div>
               <div className="text-lg font-bold text-blue-600">Sederhana</div>
-              <div className="text-xs text-gray-500">Isteri menyumbang pendapatan keluarga</div>
+              <div className="text-xs text-gray-500">
+                Isteri menyumbang pendapatan keluarga
+              </div>
             </div>
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-gray-600">Tanggungan</div>
               <div className="text-lg font-bold text-yellow-600">Terkawal</div>
-              <div className="text-xs text-gray-500">Bilangan tanggungan yang munasabah</div>
+              <div className="text-xs text-gray-500">
+                Bilangan tanggungan yang munasabah
+              </div>
             </div>
           </div>
         </div>
@@ -715,52 +977,74 @@ function PersonalTab({ customer }: { customer: any }) {
         {/* Personal Analysis */}
         <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg p-6">
           <h4 className="font-bold text-blue-800 mb-3">👤 Analisis Peribadi</h4>
-          <p className="text-gray-700 leading-relaxed mb-4">{customer.aiSummary.personal}</p>
-          
+          <p className="text-gray-700 leading-relaxed mb-4">
+            {customer.aiSummary.personal}
+          </p>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-gray-600">Pengalaman Perniagaan</div>
-              <div className="text-lg font-bold text-blue-600">Berpengalaman</div>
-              <div className="text-xs text-gray-500">Latar belakang kukuh dalam industri</div>
+              <div className="text-lg font-bold text-blue-600">
+                Berpengalaman
+              </div>
+              <div className="text-xs text-gray-500">
+                Latar belakang kukuh dalam industri
+              </div>
             </div>
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-gray-600">Dedikasi</div>
               <div className="text-lg font-bold text-green-600">Tinggi</div>
-              <div className="text-xs text-gray-500">Komited terhadap perniagaan</div>
+              <div className="text-xs text-gray-500">
+                Komited terhadap perniagaan
+              </div>
             </div>
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-gray-600">Reputasi</div>
               <div className="text-lg font-bold text-purple-600">Baik</div>
-              <div className="text-xs text-gray-500">Dikenali dalam komuniti</div>
+              <div className="text-xs text-gray-500">
+                Dikenali dalam komuniti
               </div>
+            </div>
           </div>
         </div>
 
         {/* Financial Behavior Analysis */}
         <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg p-6">
-          <h4 className="font-bold text-purple-800 mb-3">💰 Analisis Tingkah Laku Kewangan</h4>
-          <p className="text-gray-700 leading-relaxed mb-4">{customer.aiSummary.financialBehavior}</p>
-          
+          <h4 className="font-bold text-purple-800 mb-3">
+            💰 Analisis Tingkah Laku Kewangan
+          </h4>
+          <p className="text-gray-700 leading-relaxed mb-4">
+            {customer.aiSummary.financialBehavior}
+          </p>
+
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-gray-600">Disiplin Bayaran</div>
               <div className="text-lg font-bold text-green-600">Excellent</div>
-              <div className="text-xs text-gray-500">Selalu bayar tepat masa</div>
+              <div className="text-xs text-gray-500">
+                Selalu bayar tepat masa
+              </div>
             </div>
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-gray-600">Pengurusan Hutang</div>
               <div className="text-lg font-bold text-green-600">Baik</div>
-              <div className="text-xs text-gray-500">Hutang terkawal dengan baik</div>
+              <div className="text-xs text-gray-500">
+                Hutang terkawal dengan baik
+              </div>
             </div>
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-gray-600">Pelaburan</div>
               <div className="text-lg font-bold text-blue-600">Aktif</div>
-              <div className="text-xs text-gray-500">Mempunyai portfolio pelaburan</div>
+              <div className="text-xs text-gray-500">
+                Mempunyai portfolio pelaburan
+              </div>
             </div>
             <div className="bg-white rounded-lg p-3">
               <div className="text-sm text-gray-600">Perancangan</div>
               <div className="text-lg font-bold text-purple-600">Strategik</div>
-              <div className="text-xs text-gray-500">Merancang untuk masa depan</div>
+              <div className="text-xs text-gray-500">
+                Merancang untuk masa depan
+              </div>
             </div>
           </div>
         </div>
@@ -768,10 +1052,12 @@ function PersonalTab({ customer }: { customer: any }) {
 
       {/* Risk Assessment */}
       <div className="bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg p-6">
-        <h3 className="font-bold text-gray-800 mb-4">⚖️ Penilaian Risiko Keseluruhan</h3>
-        
+        <h3 className="font-bold text-gray-800 mb-4">
+          ⚖️ Penilaian Risiko Keseluruhan
+        </h3>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
+          <div>
             <h4 className="font-medium text-gray-700 mb-3">Faktor Positif:</h4>
             <ul className="space-y-2">
               <li className="flex items-start">
@@ -780,29 +1066,41 @@ function PersonalTab({ customer }: { customer: any }) {
               </li>
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
-                <span className="text-sm">Pengalaman luas dalam bidang perniagaan</span>
+                <span className="text-sm">
+                  Pengalaman luas dalam bidang perniagaan
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
-                <span className="text-sm">Keluarga yang stabil dan menyokong</span>
+                <span className="text-sm">
+                  Keluarga yang stabil dan menyokong
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
-                <span className="text-sm">Disiplin dalam pengurusan kewangan</span>
+                <span className="text-sm">
+                  Disiplin dalam pengurusan kewangan
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-green-600 mr-2">✓</span>
-                <span className="text-sm">Komitmen terhadap kewajipan agama (zakat)</span>
+                <span className="text-sm">
+                  Komitmen terhadap kewajipan agama (zakat)
+                </span>
               </li>
             </ul>
-                </div>
-          
-                    <div>
-            <h4 className="font-medium text-gray-700 mb-3">Faktor Perhatian:</h4>
+          </div>
+
+          <div>
+            <h4 className="font-medium text-gray-700 mb-3">
+              Faktor Perhatian:
+            </h4>
             <ul className="space-y-2">
               <li className="flex items-start">
                 <span className="text-yellow-600 mr-2">⚠</span>
-                <span className="text-sm">Persaingan yang semakin ketat dalam industri</span>
+                <span className="text-sm">
+                  Persaingan yang semakin ketat dalam industri
+                </span>
               </li>
               <li className="flex items-start">
                 <span className="text-yellow-600 mr-2">⚠</span>
@@ -810,27 +1108,31 @@ function PersonalTab({ customer }: { customer: any }) {
               </li>
               <li className="flex items-start">
                 <span className="text-yellow-600 mr-2">⚠</span>
-                <span className="text-sm">Bergantung kepada pendapatan perniagaan sahaja</span>
+                <span className="text-sm">
+                  Bergantung kepada pendapatan perniagaan sahaja
+                </span>
               </li>
             </ul>
-                      </div>
-                    </div>
+          </div>
+        </div>
 
         <div className="mt-6 p-4 bg-white rounded-lg border-l-4 border-blue-500">
           <h4 className="font-bold text-blue-800 mb-2">📋 Cadangan Bank:</h4>
           <p className="text-gray-700 text-sm leading-relaxed">
-            Pelanggan ini menunjukkan profil risiko yang rendah dengan potensi pertumbuhan yang baik. 
-            Disyorkan untuk meneruskan pembiayaan dengan pemantauan berkala terhadap prestasi perniagaan. 
-            Pertimbangkan untuk menawarkan produk perbankan tambahan seperti akaun perniagaan dan kemudahan overdraft.
+            Pelanggan ini menunjukkan profil risiko yang rendah dengan potensi
+            pertumbuhan yang baik. Disyorkan untuk meneruskan pembiayaan dengan
+            pemantauan berkala terhadap prestasi perniagaan. Pertimbangkan untuk
+            menawarkan produk perbankan tambahan seperti akaun perniagaan dan
+            kemudahan overdraft.
           </p>
-                      </div>
-                    </div>
+        </div>
+      </div>
 
       {/* Contact Information */}
       <div className="bg-gray-50 rounded-lg p-6">
         <h3 className="font-bold text-gray-800 mb-4">📞 Maklumat Hubungan</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
+          <div>
             <h4 className="font-medium text-gray-700 mb-3">Hubungan Utama:</h4>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
@@ -843,24 +1145,34 @@ function PersonalTab({ customer }: { customer: any }) {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Alamat Perniagaan:</span>
-                <span className="font-medium text-xs">{customer.businessAddress}</span>
-                    </div>
-                  </div>
-                </div>
-          
+                <span className="font-medium text-xs">
+                  {customer.businessAddress}
+                </span>
+              </div>
+            </div>
+          </div>
+
           <div>
-            <h4 className="font-medium text-gray-700 mb-3">Hubungan Kecemasan:</h4>
+            <h4 className="font-medium text-gray-700 mb-3">
+              Hubungan Kecemasan:
+            </h4>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-gray-600">Penjamin:</span>
-                <span className="font-medium text-xs">{customer.guarantor}</span>
+                <span className="font-medium text-xs">
+                  {customer.guarantor}
+                </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600">Hubungan:</span>
                 <span className="font-medium">
-                  {customer.guarantor.includes('Isteri') ? 'Isteri' : 
-                   customer.guarantor.includes('Suami') ? 'Suami' : 
-                   customer.guarantor.includes('Abang') ? 'Abang' : 'Keluarga'}
+                  {customer.guarantor.includes("Isteri")
+                    ? "Isteri"
+                    : customer.guarantor.includes("Suami")
+                    ? "Suami"
+                    : customer.guarantor.includes("Abang")
+                    ? "Abang"
+                    : "Keluarga"}
                 </span>
               </div>
             </div>
