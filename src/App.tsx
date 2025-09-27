@@ -1,24 +1,28 @@
 import { useMemo, useState, useEffect } from "react";
 import FinancialProfile from "./components/FinancialProfile";
+import ProfileTab from "./components/ProfileTab";
 import AdminApp from "./components/AdminApp";
 
 export default function ItekadMobileApp() {
   const [isAdminMode, setIsAdminMode] = useState(false);
+  const [activeTopTab, setActiveTopTab] = useState<"journey" | "profile">(
+    "journey"
+  );
 
   useEffect(() => {
     // Check if URL contains /admin to determine if we should show admin interface
     const pathname = window.location.pathname;
     const search = window.location.search;
-    
-    console.log('Pathname:', pathname);
-    console.log('Search:', search);
-    
+
+    console.log("Pathname:", pathname);
+    console.log("Search:", search);
+
     if (
       pathname.includes("/admin") ||
       pathname === "/admin" ||
       search.includes("admin=true")
     ) {
-      console.log('Setting admin mode to true');
+      console.log("Setting admin mode to true");
       setIsAdminMode(true);
     }
   }, []);
@@ -181,10 +185,33 @@ export default function ItekadMobileApp() {
   const MobileHeader = () => (
     <div className="sticky top-0 z-20 bg-rose-600 text-white">
       <div className="px-4 py-3">
-        <h1 className="text-lg font-bold text-center">iTEKAD Journey</h1>
-        <div className="mt-2 text-sm text-center opacity-90">
-          Step {stepIdx + 1} of {steps.length}: {steps[stepIdx].shortTitle}
+        <div className="flex items-center justify-center gap-2">
+          <button
+            onClick={() => setActiveTopTab("journey")}
+            className={`px-3 py-1 rounded-full text-sm font-medium ${
+              activeTopTab === "journey"
+                ? "bg-white text-rose-600"
+                : "bg-rose-700 text-white"
+            }`}
+          >
+            Journey
+          </button>
+          <button
+            onClick={() => setActiveTopTab("profile")}
+            className={`px-3 py-1 rounded-full text-sm font-medium ${
+              activeTopTab === "profile"
+                ? "bg-white text-rose-600"
+                : "bg-rose-700 text-white"
+            }`}
+          >
+            Profile
+          </button>
         </div>
+        {activeTopTab === "journey" && (
+          <div className="mt-2 text-sm text-center opacity-90">
+            Step {stepIdx + 1} of {steps.length}: {steps[stepIdx].shortTitle}
+          </div>
+        )}
       </div>
 
       {/* Progress bar */}
@@ -195,23 +222,24 @@ export default function ItekadMobileApp() {
         />
       </div>
 
-      {/* Step tabs - horizontal scroll */}
-      <div className="flex overflow-x-auto px-2 py-2 scrollbar-hide">
-        {steps.map((s, i) => (
-          <button
-            key={s.key}
-            onClick={() => setStepIdx(i)}
-            className={`flex-shrink-0 mx-1 px-3 py-2 rounded-full text-xs font-medium transition ${
-              i === stepIdx
-                ? "bg-white text-rose-600"
-                : "bg-rose-700 text-white hover:bg-rose-500"
-            }`}
-          >
-            <span className="mr-1">{s.icon}</span>
-            {s.shortTitle}
-          </button>
-        ))}
-      </div>
+      {activeTopTab === "journey" && (
+        <div className="flex overflow-x-auto px-2 py-2 scrollbar-hide">
+          {steps.map((s, i) => (
+            <button
+              key={s.key}
+              onClick={() => setStepIdx(i)}
+              className={`flex-shrink-0 mx-1 px-3 py-2 rounded-full text-xs font-medium transition ${
+                i === stepIdx
+                  ? "bg-white text-rose-600"
+                  : "bg-rose-700 text-white hover:bg-rose-500"
+              }`}
+            >
+              <span className="mr-1">{s.icon}</span>
+              {s.shortTitle}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 
@@ -234,582 +262,605 @@ export default function ItekadMobileApp() {
       <MobileHeader />
 
       <div className="px-4 py-4">
-        {/* STEP 1: Identity & Basics */}
-        {stepIdx === 0 && (
-          <MobileCard>
-            <div className="text-center mb-4">
-              <div className="text-4xl mb-2">{steps[0].icon}</div>
-              <h2 className="text-xl font-bold text-gray-800">
-                {steps[0].title}
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Verify your identity with e-KYC
-              </p>
-            </div>
+        {activeTopTab === "profile" && <ProfileTab />}
 
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Full Name
-                </label>
-                <input
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Siti Aminah"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  MyKad / IC (12 digits)
-                </label>
-                <input
-                  value={ic}
-                  onChange={(e) => setIc(e.target.value)}
-                  placeholder="912345678901"
-                  className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                  type="tel"
-                />
-              </div>
-
-              <button
-                onClick={runEkyc}
-                className="w-full bg-rose-600 text-white font-semibold py-3 rounded-lg text-base active:bg-rose-700 transition"
-              >
-                Simulate e‑KYC Verification
-              </button>
-
-              {ekyc === "pass" && (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-green-800 text-sm">
-                  ✅ e‑KYC verification passed successfully!
-                </div>
-              )}
-
-              {ekyc === "fail" && (
-                <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-800 text-sm">
-                  ❌ e‑KYC failed. Please check IC format & name.
-                </div>
-              )}
-            </div>
-
-            <div className="mt-4 p-3 bg-blue-50 rounded-lg text-xs text-blue-800">
-              💡 This simulates MyDigitalID verification: selfie + IC match,
-              liveness check, and sanctions screening.
-            </div>
-          </MobileCard>
-        )}
-
-        {/* STEP 2: Documents Upload */}
-        {stepIdx === 1 && (
-          <MobileCard>
-            <div className="text-center mb-4">
-              <div className="text-4xl mb-2">{steps[1].icon}</div>
-              <h2 className="text-xl font-bold text-gray-800">
-                {steps[1].title}
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Upload required documents
-              </p>
-            </div>
-
-            <div className="space-y-3">
-              {Object.entries({
-                "IC Copy": "ic",
-                "SSM Certificate": "ssm",
-                "Bank Statement (3m)": "bank3m",
-                "Business Plan": "plan",
-                "Business Photo": "photo",
-              }).map(([label, key]) => (
-                <label
-                  key={key}
-                  className="flex items-center justify-between p-3 bg-gray-50 border rounded-lg active:bg-gray-100 transition"
-                >
-                  <div className="flex items-center">
-                    <input
-                      type="checkbox"
-                      checked={docs[key as keyof typeof docs]}
-                      onChange={() =>
-                        setDocs((prev) => ({
-                          ...prev,
-                          [key]: !prev[key as keyof typeof prev],
-                        }))
-                      }
-                      className="mr-3 w-4 h-4 text-rose-600 rounded focus:ring-rose-500"
-                    />
-                    <span className="text-sm font-medium">{label}</span>
-                  </div>
-                  {docs[key as keyof typeof docs] && (
-                    <span className="text-green-600 text-sm">✓</span>
-                  )}
-                </label>
-              ))}
-            </div>
-
-            <div className="mt-4 p-3 bg-gray-100 rounded-lg">
-              <div className="text-sm font-medium">
-                Progress: {docsScore} / 5 documents uploaded
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                <div
-                  className="bg-rose-600 h-2 rounded-full transition-all"
-                  style={{ width: `${(docsScore / 5) * 100}%` }}
-                />
-              </div>
-            </div>
-
-            <div className="mt-4 p-3 bg-blue-50 rounded-lg text-xs text-blue-800">
-              💡 OCR technology verifies that names & numbers match across all
-              documents.
-            </div>
-          </MobileCard>
-        )}
-
-        {/* STEP 3: Auto Vetting */}
-        {stepIdx === 2 && (
-          <MobileCard>
-            <div className="text-center mb-4">
-              <div className="text-4xl mb-2">{steps[2].icon}</div>
-              <h2 className="text-xl font-bold text-gray-800">
-                {steps[2].title}
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Automated risk assessment
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    CCRIS
-                  </label>
-                  <select
-                    value={ccris}
-                    onChange={(e) => setCcris(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                  >
-                    <option value="clean">Clean</option>
-                    <option value="minor">Minor Issues</option>
-                    <option value="default">Defaults</option>
-                  </select>
+        {activeTopTab === "profile" ? null : (
+          <>
+            {/* STEP 1: Identity & Basics */}
+            {stepIdx === 0 && (
+              <MobileCard>
+                <div className="text-center mb-4">
+                  <div className="text-4xl mb-2">{steps[0].icon}</div>
+                  <h2 className="text-xl font-bold text-gray-800">
+                    {steps[0].title}
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Verify your identity with e-KYC
+                  </p>
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    CTOS
-                  </label>
-                  <select
-                    value={ctos}
-                    onChange={(e) => setCtos(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                  >
-                    <option value="clean">Clean</option>
-                    <option value="issue">Issue Present</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Business Tenure
-                  </label>
-                  <input
-                    type="number"
-                    value={months}
-                    onChange={(e) => setMonths(parseInt(e.target.value || "0"))}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                    placeholder="Months"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Age
-                  </label>
-                  <input
-                    type="number"
-                    value={age}
-                    onChange={(e) => setAge(parseInt(e.target.value || "0"))}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                    placeholder="Years"
-                  />
-                </div>
-              </div>
-
-              <label className="flex items-center p-3 bg-gray-50 border rounded-lg">
-                <input
-                  type="checkbox"
-                  checked={bankrupt}
-                  onChange={() => setBankrupt((v) => !v)}
-                  className="mr-3 w-4 h-4 text-rose-600 rounded focus:ring-rose-500"
-                />
-                <span className="text-sm font-medium">
-                  Bankruptcy/Insolvency Record
-                </span>
-              </label>
-            </div>
-
-            <div
-              className={`mt-4 rounded-lg p-4 border ${
-                decision.outcome === "PASS"
-                  ? "border-green-300 bg-green-50"
-                  : decision.outcome === "FAIL"
-                  ? "border-red-300 bg-red-50"
-                  : "border-amber-300 bg-amber-50"
-              }`}
-            >
-              <div className="font-bold text-lg mb-2">
-                Assessment: {decision.outcome}
-              </div>
-              <ul className="space-y-1">
-                {decision.reasons.map((r, i) => (
-                  <li key={i} className="text-sm flex items-start">
-                    <span className="mr-2">•</span>
-                    <span>{r}</span>
-                  </li>
-                ))}
-              </ul>
-              {decision.outcome !== "PASS" && (
-                <div className="mt-2 text-xs opacity-75">
-                  Cases requiring review are forwarded to loan officers with
-                  full context.
-                </div>
-              )}
-            </div>
-          </MobileCard>
-        )}
-
-        {/* STEP 4: Interview Prep */}
-        {stepIdx === 3 && (
-          <MobileCard>
-            <div className="text-center mb-4">
-              <div className="text-4xl mb-2">{steps[3].icon}</div>
-              <h2 className="text-xl font-bold text-gray-800">
-                {steps[3].title}
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Get ready for your interview
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-bold mb-3 text-gray-800">📋 Checklist</h3>
-                <div className="space-y-2">
-                  {[
-                    "Last 3 months bank statements",
-                    "Sample e‑invoice or sales records",
-                    "Cost breakdown (rent, utilities, supplies)",
-                    "Business photos (location/stall)",
-                    "Fund usage plan (equipment/working capital)",
-                  ].map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex items-start p-2 bg-gray-50 rounded-lg"
-                    >
-                      <span className="mr-2 text-gray-400">•</span>
-                      <span className="text-sm">{item}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h3 className="font-bold mb-3 text-gray-800">
-                  🤖 AI Assistant
-                </h3>
-                <ChatbotMobile />
-              </div>
-            </div>
-          </MobileCard>
-        )}
-
-        {/* STEP 5: Onboarding & e-Invoicing */}
-        {stepIdx === 4 && (
-          <div className="space-y-4">
-            <MobileCard>
-              <div className="text-center mb-4">
-                <div className="text-4xl mb-2">{steps[4].icon}</div>
-                <h2 className="text-xl font-bold text-gray-800">
-                  {steps[4].title}
-                </h2>
-                <p className="text-sm text-gray-600 mt-1">
-                  Track your business cashflow
-                </p>
-              </div>
-
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Description
-                  </label>
-                  <input
-                    value={label}
-                    onChange={(e) => setLabel(e.target.value)}
-                    placeholder="e.g. Nasi lemak sales (Monday)"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                  />
-                </div>
-
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="col-span-2">
+                <div className="space-y-4">
+                  <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Amount (RM)
+                      Full Name
                     </label>
                     <input
-                      type="number"
-                      value={amt}
-                      onChange={(e) =>
-                        setAmt(parseFloat(e.target.value || "0"))
-                      }
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
-                      placeholder="0.00"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="e.g. Siti Aminah"
+                      className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base focus:ring-2 focus:ring-rose-500 focus:border-transparent"
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Type
+                      MyKad / IC (12 digits)
                     </label>
-                    <select
-                      value={etype}
-                      onChange={(e) => setEtype(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                    <input
+                      value={ic}
+                      onChange={(e) => setIc(e.target.value)}
+                      placeholder="912345678901"
+                      className="w-full border border-gray-300 rounded-lg px-4 py-3 text-base focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                      type="tel"
+                    />
+                  </div>
+
+                  <button
+                    onClick={runEkyc}
+                    className="w-full bg-rose-600 text-white font-semibold py-3 rounded-lg text-base active:bg-rose-700 transition"
+                  >
+                    Simulate e‑KYC Verification
+                  </button>
+
+                  {ekyc === "pass" && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-3 text-green-800 text-sm">
+                      ✅ e‑KYC verification passed successfully!
+                    </div>
+                  )}
+
+                  {ekyc === "fail" && (
+                    <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-red-800 text-sm">
+                      ❌ e‑KYC failed. Please check IC format & name.
+                    </div>
+                  )}
+                </div>
+
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg text-xs text-blue-800">
+                  💡 This simulates MyDigitalID verification: selfie + IC match,
+                  liveness check, and sanctions screening.
+                </div>
+              </MobileCard>
+            )}
+
+            {/* STEP 2: Documents Upload */}
+            {stepIdx === 1 && (
+              <MobileCard>
+                <div className="text-center mb-4">
+                  <div className="text-4xl mb-2">{steps[1].icon}</div>
+                  <h2 className="text-xl font-bold text-gray-800">
+                    {steps[1].title}
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Upload required documents
+                  </p>
+                </div>
+
+                <div className="space-y-3">
+                  {Object.entries({
+                    "IC Copy": "ic",
+                    "SSM Certificate": "ssm",
+                    "Bank Statement (3m)": "bank3m",
+                    "Business Plan": "plan",
+                    "Business Photo": "photo",
+                  }).map(([label, key]) => (
+                    <label
+                      key={key}
+                      className="flex items-center justify-between p-3 bg-gray-50 border rounded-lg active:bg-gray-100 transition"
                     >
-                      <option value="sale">Sale</option>
-                      <option value="expense">Expense</option>
-                    </select>
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          checked={docs[key as keyof typeof docs]}
+                          onChange={() =>
+                            setDocs((prev) => ({
+                              ...prev,
+                              [key]: !prev[key as keyof typeof prev],
+                            }))
+                          }
+                          className="mr-3 w-4 h-4 text-rose-600 rounded focus:ring-rose-500"
+                        />
+                        <span className="text-sm font-medium">{label}</span>
+                      </div>
+                      {docs[key as keyof typeof docs] && (
+                        <span className="text-green-600 text-sm">✓</span>
+                      )}
+                    </label>
+                  ))}
+                </div>
+
+                <div className="mt-4 p-3 bg-gray-100 rounded-lg">
+                  <div className="text-sm font-medium">
+                    Progress: {docsScore} / 5 documents uploaded
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                    <div
+                      className="bg-rose-600 h-2 rounded-full transition-all"
+                      style={{ width: `${(docsScore / 5) * 100}%` }}
+                    />
                   </div>
                 </div>
 
-                <button
-                  onClick={addEntry}
-                  className="w-full bg-rose-600 text-white font-semibold py-2 rounded-lg text-sm active:bg-rose-700 transition"
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg text-xs text-blue-800">
+                  💡 OCR technology verifies that names & numbers match across
+                  all documents.
+                </div>
+              </MobileCard>
+            )}
+
+            {/* STEP 3: Auto Vetting */}
+            {stepIdx === 2 && (
+              <MobileCard>
+                <div className="text-center mb-4">
+                  <div className="text-4xl mb-2">{steps[2].icon}</div>
+                  <h2 className="text-xl font-bold text-gray-800">
+                    {steps[2].title}
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Automated risk assessment
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        CCRIS
+                      </label>
+                      <select
+                        value={ccris}
+                        onChange={(e) => setCcris(e.target.value)}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                      >
+                        <option value="clean">Clean</option>
+                        <option value="minor">Minor Issues</option>
+                        <option value="default">Defaults</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        CTOS
+                      </label>
+                      <select
+                        value={ctos}
+                        onChange={(e) => setCtos(e.target.value)}
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                      >
+                        <option value="clean">Clean</option>
+                        <option value="issue">Issue Present</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Business Tenure
+                      </label>
+                      <input
+                        type="number"
+                        value={months}
+                        onChange={(e) =>
+                          setMonths(parseInt(e.target.value || "0"))
+                        }
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                        placeholder="Months"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Age
+                      </label>
+                      <input
+                        type="number"
+                        value={age}
+                        onChange={(e) =>
+                          setAge(parseInt(e.target.value || "0"))
+                        }
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                        placeholder="Years"
+                      />
+                    </div>
+                  </div>
+
+                  <label className="flex items-center p-3 bg-gray-50 border rounded-lg">
+                    <input
+                      type="checkbox"
+                      checked={bankrupt}
+                      onChange={() => setBankrupt((v) => !v)}
+                      className="mr-3 w-4 h-4 text-rose-600 rounded focus:ring-rose-500"
+                    />
+                    <span className="text-sm font-medium">
+                      Bankruptcy/Insolvency Record
+                    </span>
+                  </label>
+                </div>
+
+                <div
+                  className={`mt-4 rounded-lg p-4 border ${
+                    decision.outcome === "PASS"
+                      ? "border-green-300 bg-green-50"
+                      : decision.outcome === "FAIL"
+                      ? "border-red-300 bg-red-50"
+                      : "border-amber-300 bg-amber-50"
+                  }`}
                 >
-                  Add Entry
-                </button>
-              </div>
-            </MobileCard>
+                  <div className="font-bold text-lg mb-2">
+                    Assessment: {decision.outcome}
+                  </div>
+                  <ul className="space-y-1">
+                    {decision.reasons.map((r, i) => (
+                      <li key={i} className="text-sm flex items-start">
+                        <span className="mr-2">•</span>
+                        <span>{r}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {decision.outcome !== "PASS" && (
+                    <div className="mt-2 text-xs opacity-75">
+                      Cases requiring review are forwarded to loan officers with
+                      full context.
+                    </div>
+                  )}
+                </div>
+              </MobileCard>
+            )}
 
-            <MobileCard>
-              <h3 className="font-bold mb-3 text-gray-800">Monthly Summary</h3>
-              <div className="grid grid-cols-2 gap-3 mb-4">
-                <KPIMobile
-                  label="Sales"
-                  value={`RM ${totals.sales.toFixed(2)}`}
-                  color="green"
-                />
-                <KPIMobile
-                  label="Expenses"
-                  value={`RM ${totals.expenses.toFixed(2)}`}
-                  color="red"
-                />
-                <KPIMobile
-                  label="Net Income"
-                  value={`RM ${totals.net.toFixed(2)}`}
-                  color="blue"
-                />
-                <KPIMobile
-                  label="Risk Level"
-                  value={totals.risk}
-                  color={
-                    totals.risk === "LOW"
-                      ? "green"
-                      : totals.risk === "MEDIUM"
-                      ? "yellow"
-                      : "red"
-                  }
-                />
-              </div>
+            {/* STEP 4: Interview Prep */}
+            {stepIdx === 3 && (
+              <MobileCard>
+                <div className="text-center mb-4">
+                  <div className="text-4xl mb-2">{steps[3].icon}</div>
+                  <h2 className="text-xl font-bold text-gray-800">
+                    {steps[3].title}
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Get ready for your interview
+                  </p>
+                </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Monthly Instalment: RM {instalment}
-                </label>
-                <input
-                  type="range"
-                  min={200}
-                  max={1500}
-                  value={instalment}
-                  onChange={(e) => setInstalment(parseInt(e.target.value))}
-                  className="w-full"
-                />
-                <div className="text-center mt-1">
-                  <span
-                    className={`text-sm font-medium ${
-                      totals.surplus >= 0 ? "text-green-600" : "text-red-600"
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="font-bold mb-3 text-gray-800">
+                      📋 Checklist
+                    </h3>
+                    <div className="space-y-2">
+                      {[
+                        "Last 3 months bank statements",
+                        "Sample e‑invoice or sales records",
+                        "Cost breakdown (rent, utilities, supplies)",
+                        "Business photos (location/stall)",
+                        "Fund usage plan (equipment/working capital)",
+                      ].map((item, i) => (
+                        <div
+                          key={i}
+                          className="flex items-start p-2 bg-gray-50 rounded-lg"
+                        >
+                          <span className="mr-2 text-gray-400">•</span>
+                          <span className="text-sm">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold mb-3 text-gray-800">
+                      🤖 AI Assistant
+                    </h3>
+                    <ChatbotMobile />
+                  </div>
+                </div>
+              </MobileCard>
+            )}
+
+            {/* STEP 5: Onboarding & e-Invoicing */}
+            {stepIdx === 4 && (
+              <div className="space-y-4">
+                <MobileCard>
+                  <div className="text-center mb-4">
+                    <div className="text-4xl mb-2">{steps[4].icon}</div>
+                    <h2 className="text-xl font-bold text-gray-800">
+                      {steps[4].title}
+                    </h2>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Track your business cashflow
+                    </p>
+                  </div>
+
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Description
+                      </label>
+                      <input
+                        value={label}
+                        onChange={(e) => setLabel(e.target.value)}
+                        placeholder="e.g. Nasi lemak sales (Monday)"
+                        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Amount (RM)
+                        </label>
+                        <input
+                          type="number"
+                          value={amt}
+                          onChange={(e) =>
+                            setAmt(parseFloat(e.target.value || "0"))
+                          }
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                          placeholder="0.00"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Type
+                        </label>
+                        <select
+                          value={etype}
+                          onChange={(e) => setEtype(e.target.value)}
+                          className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"
+                        >
+                          <option value="sale">Sale</option>
+                          <option value="expense">Expense</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <button
+                      onClick={addEntry}
+                      className="w-full bg-rose-600 text-white font-semibold py-2 rounded-lg text-sm active:bg-rose-700 transition"
+                    >
+                      Add Entry
+                    </button>
+                  </div>
+                </MobileCard>
+
+                <MobileCard>
+                  <h3 className="font-bold mb-3 text-gray-800">
+                    Monthly Summary
+                  </h3>
+                  <div className="grid grid-cols-2 gap-3 mb-4">
+                    <KPIMobile
+                      label="Sales"
+                      value={`RM ${totals.sales.toFixed(2)}`}
+                      color="green"
+                    />
+                    <KPIMobile
+                      label="Expenses"
+                      value={`RM ${totals.expenses.toFixed(2)}`}
+                      color="red"
+                    />
+                    <KPIMobile
+                      label="Net Income"
+                      value={`RM ${totals.net.toFixed(2)}`}
+                      color="blue"
+                    />
+                    <KPIMobile
+                      label="Risk Level"
+                      value={totals.risk}
+                      color={
+                        totals.risk === "LOW"
+                          ? "green"
+                          : totals.risk === "MEDIUM"
+                          ? "yellow"
+                          : "red"
+                      }
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Monthly Instalment: RM {instalment}
+                    </label>
+                    <input
+                      type="range"
+                      min={200}
+                      max={1500}
+                      value={instalment}
+                      onChange={(e) => setInstalment(parseInt(e.target.value))}
+                      className="w-full"
+                    />
+                    <div className="text-center mt-1">
+                      <span
+                        className={`text-sm font-medium ${
+                          totals.surplus >= 0
+                            ? "text-green-600"
+                            : "text-red-600"
+                        }`}
+                      >
+                        Surplus: RM {totals.surplus.toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+
+                  <EntriesListMobile
+                    entries={entries}
+                    setEntries={setEntries}
+                  />
+                </MobileCard>
+              </div>
+            )}
+
+            {/* STEP 6: Financial Profile Generation */}
+            {stepIdx === 5 && (
+              <div className="space-y-4">
+                <MobileCard>
+                  <div className="text-center mb-4">
+                    <div className="text-4xl mb-2">{steps[5].icon}</div>
+                    <h2 className="text-xl font-bold text-gray-800">
+                      {steps[5].title}
+                    </h2>
+                    <p className="text-sm text-gray-600 mt-1">
+                      Comprehensive risk assessment report
+                    </p>
+                  </div>
+
+                  <FinancialProfile
+                    name={name}
+                    ic={ic}
+                    ekyc={ekyc}
+                    docs={docs}
+                    docsScore={docsScore}
+                    decision={decision}
+                    ccris={ccris}
+                    ctos={ctos}
+                    bankrupt={bankrupt}
+                    months={months}
+                    age={age}
+                    totals={totals}
+                    entries={entries}
+                    instalment={instalment}
+                  />
+                </MobileCard>
+              </div>
+            )}
+
+            {/* STEP 7: Scam Checker */}
+            {stepIdx === 6 && (
+              <MobileCard>
+                <div className="text-center mb-4">
+                  <div className="text-4xl mb-2">{steps[6].icon}</div>
+                  <h2 className="text-xl font-bold text-gray-800">
+                    {steps[6].title}
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Protect yourself from fraud
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Paste suspicious message:
+                    </label>
+                    <textarea
+                      value={sms}
+                      onChange={(e) => setSms(e.target.value)}
+                      placeholder="Paste suspicious SMS/WhatsApp here..."
+                      className="w-full border border-gray-300 rounded-lg px-3 py-3 text-sm h-32 resize-none"
+                    />
+                  </div>
+
+                  <div
+                    className={`rounded-lg p-4 border ${
+                      scamFindings.length
+                        ? "border-red-300 bg-red-50"
+                        : "border-green-300 bg-green-50"
                     }`}
                   >
-                    Surplus: RM {totals.surplus.toFixed(2)}
-                  </span>
-                </div>
-              </div>
-
-              <EntriesListMobile entries={entries} setEntries={setEntries} />
-            </MobileCard>
-          </div>
-        )}
-
-        {/* STEP 6: Financial Profile Generation */}
-        {stepIdx === 5 && (
-          <div className="space-y-4">
-            <MobileCard>
-              <div className="text-center mb-4">
-                <div className="text-4xl mb-2">{steps[5].icon}</div>
-                <h2 className="text-xl font-bold text-gray-800">
-                  {steps[5].title}
-                </h2>
-                <p className="text-sm text-gray-600 mt-1">
-                  Comprehensive risk assessment report
-                </p>
-              </div>
-
-              <FinancialProfile
-                name={name}
-                ic={ic}
-                ekyc={ekyc}
-                docs={docs}
-                docsScore={docsScore}
-                decision={decision}
-                ccris={ccris}
-                ctos={ctos}
-                bankrupt={bankrupt}
-                months={months}
-                age={age}
-                totals={totals}
-                entries={entries}
-                instalment={instalment}
-              />
-            </MobileCard>
-          </div>
-        )}
-
-        {/* STEP 7: Scam Checker */}
-        {stepIdx === 6 && (
-          <MobileCard>
-            <div className="text-center mb-4">
-              <div className="text-4xl mb-2">{steps[6].icon}</div>
-              <h2 className="text-xl font-bold text-gray-800">
-                {steps[6].title}
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Protect yourself from fraud
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Paste suspicious message:
-                </label>
-                <textarea
-                  value={sms}
-                  onChange={(e) => setSms(e.target.value)}
-                  placeholder="Paste suspicious SMS/WhatsApp here..."
-                  className="w-full border border-gray-300 rounded-lg px-3 py-3 text-sm h-32 resize-none"
-                />
-              </div>
-
-              <div
-                className={`rounded-lg p-4 border ${
-                  scamFindings.length
-                    ? "border-red-300 bg-red-50"
-                    : "border-green-300 bg-green-50"
-                }`}
-              >
-                {scamFindings.length ? (
-                  <>
-                    <div className="font-bold text-red-700 mb-2">
-                      ⚠️ Scam Alert!
-                    </div>
-                    <ul className="space-y-1">
-                      {scamFindings.map((f, i) => (
-                        <li
-                          key={i}
-                          className="text-sm text-red-700 flex items-start"
-                        >
-                          <span className="mr-2">•</span>
-                          <span>{f}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </>
-                ) : (
-                  <div className="text-green-700 font-medium">
-                    ✅ No obvious red flags detected
+                    {scamFindings.length ? (
+                      <>
+                        <div className="font-bold text-red-700 mb-2">
+                          ⚠️ Scam Alert!
+                        </div>
+                        <ul className="space-y-1">
+                          {scamFindings.map((f, i) => (
+                            <li
+                              key={i}
+                              className="text-sm text-red-700 flex items-start"
+                            >
+                              <span className="mr-2">•</span>
+                              <span>{f}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </>
+                    ) : (
+                      <div className="text-green-700 font-medium">
+                        ✅ No obvious red flags detected
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
 
-              <div className="p-3 bg-blue-50 rounded-lg">
-                <div className="text-xs text-blue-800">
-                  <strong>Remember:</strong> Bank Islam will never ask for your
-                  OTP/TAC or request upfront processing fees.
+                  <div className="p-3 bg-blue-50 rounded-lg">
+                    <div className="text-xs text-blue-800">
+                      <strong>Remember:</strong> Bank Islam will never ask for
+                      your OTP/TAC or request upfront processing fees.
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          </MobileCard>
-        )}
+              </MobileCard>
+            )}
 
-        {/* STEP 8: Graduation */}
-        {stepIdx === 7 && (
-          <MobileCard>
-            <div className="text-center mb-4">
-              <div className="text-4xl mb-2">{steps[7].icon}</div>
-              <h2 className="text-xl font-bold text-gray-800">
-                {steps[7].title}
-              </h2>
-              <p className="text-sm text-gray-600 mt-1">
-                Ready for the next level?
-              </p>
-            </div>
+            {/* STEP 8: Graduation */}
+            {stepIdx === 7 && (
+              <MobileCard>
+                <div className="text-center mb-4">
+                  <div className="text-4xl mb-2">{steps[7].icon}</div>
+                  <h2 className="text-xl font-bold text-gray-800">
+                    {steps[7].title}
+                  </h2>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Ready for the next level?
+                  </p>
+                </div>
 
-            <GraduationMobile totals={totals} months={months} />
-          </MobileCard>
+                <GraduationMobile totals={totals} months={months} />
+              </MobileCard>
+            )}
+          </>
         )}
       </div>
 
       {/* Fixed bottom navigation */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3">
-        <div className="flex justify-between">
-          <button
-            onClick={() => setStepIdx(Math.max(0, stepIdx - 1))}
-            disabled={stepIdx === 0}
-            className={`px-6 py-2 rounded-lg font-medium ${
-              stepIdx === 0
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                : "bg-gray-100 text-gray-700 active:bg-gray-200"
-            }`}
-          >
-            ← Back
-          </button>
+      {activeTopTab === "profile" ? null : (
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3">
+          <div className="flex justify-between">
+            <button
+              onClick={() => setStepIdx(Math.max(0, stepIdx - 1))}
+              disabled={stepIdx === 0}
+              className={`px-6 py-2 rounded-lg font-medium ${
+                stepIdx === 0
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-gray-100 text-gray-700 active:bg-gray-200"
+              }`}
+            >
+              ← Back
+            </button>
 
-          {/* Admin Mode Toggle - Hidden for regular users */}
-          <button
-            onClick={() => {
-              window.location.href = window.location.href + "?admin=true";
-            }}
-            className="px-3 py-2 text-xs bg-gray-50 text-gray-500 rounded-lg hover:bg-gray-100 transition"
-            title="Admin Access"
-          >
-            🏛️
-          </button>
+            {/* Admin Mode Toggle - Hidden for regular users */}
+            <button
+              onClick={() => {
+                window.location.href = window.location.href + "?admin=true";
+              }}
+              className="px-3 py-2 text-xs bg-gray-50 text-gray-500 rounded-lg hover:bg-gray-100 transition"
+              title="Admin Access"
+            >
+              🏛️
+            </button>
 
-          <button
-            onClick={() => setStepIdx(Math.min(steps.length - 1, stepIdx + 1))}
-            disabled={stepIdx === steps.length - 1}
-            className={`px-6 py-2 rounded-lg font-medium ${
-              stepIdx === steps.length - 1
-                ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                : "bg-rose-600 text-white active:bg-rose-700"
-            }`}
-          >
-            Next →
-          </button>
+            <button
+              onClick={() =>
+                setStepIdx(Math.min(steps.length - 1, stepIdx + 1))
+              }
+              disabled={stepIdx === steps.length - 1}
+              className={`px-6 py-2 rounded-lg font-medium ${
+                stepIdx === steps.length - 1
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed"
+                  : "bg-rose-600 text-white active:bg-rose-700"
+              }`}
+            >
+              Next →
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
